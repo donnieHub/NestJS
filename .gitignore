@@ -1,23 +1,23 @@
 # compiled output
-/dist
-/node_modules
-/build
+r-omni/dist
+r-omni/node_modules
+r-omni/build
 
 # Logs
-logs
-*.log
-npm-debug.log*
-pnpm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-lerna-debug.log*
+r-omni/logs
+r-omni/*.log
+r-omni/npm-debug.log*
+r-omni/pnpm-debug.log*
+r-omni/yarn-debug.log*
+r-omni/yarn-error.log*
+r-omni/lerna-debug.log*
 
 # OS
-.DS_Store
+r-omni/.DS_Store
 
 # Tests
-/coverage
-/.nyc_output
+r-omni/coverage
+r-omni/.nyc_output
 
 # IDEs and editors
 /.idea
@@ -36,21 +36,21 @@ lerna-debug.log*
 !.vscode/extensions.json
 
 # dotenv environment variable files
-.env
-.env.development.local
-.env.test.local
-.env.production.local
-.env.local
+r-omni/.env
+r-omni/.env.development.local
+r-omni/.env.test.local
+r-omni/.env.production.local
+r-omni/.env.local
 
 # temp directory
-.temp
-.tmp
+r-omni/.temp
+r-omni/.tmp
 
 # Runtime data
-pids
-*.pid
-*.seed
-*.pid.lock
+r-omni/pids
+r-omni/*.pid
+r-omni/*.seed
+r-omni/*.pid.lock
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
-report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+r-omni/report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
