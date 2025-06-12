@@ -9,7 +9,7 @@ export class AppController {
   @HttpCode(203)
   @Header('Cache-Control', 'no-store')
   async getHello(): Promise<string> {
-    return this.appService.getHello();
+    return this.appService.getMainHeader();
   }
 
   @Get('redirect')
