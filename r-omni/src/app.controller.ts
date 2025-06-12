@@ -8,20 +8,20 @@ export class AppController {
   @Get()
   @HttpCode(203)
   @Header('Cache-Control', 'no-store')
-  getHello(): string {
+  async getHello(): Promise<string> {
     return this.appService.getHello();
   }
 
   @Get('redirect')
   @Redirect('/', 302)
-  redirect(@Query('yes') version) {
+  async redirect(@Query('yes') version: string) {
     if (version && version === 'true') {
       return { url: 'http://example.org', HttpCode: 301 };
     }
   }
 
   @Get('product/:id')
-  getProduct(@Param('id') id: number): string {
+  async getProduct(@Param('id') id: number): Promise<string> {
     console.log('Get product with id: ' + id);
     return `This action returns a #${id} product`;
   }
