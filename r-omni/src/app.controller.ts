@@ -1,5 +1,6 @@
-import {Controller, Get, Header, HttpCode, Param, Query, Redirect} from '@nestjs/common';
+import {Body, Controller, Get, Header, HttpCode, Param, Post, Query, Redirect} from '@nestjs/common';
 import { AppService } from './app.service';
+import {CreateReservationDto} from "./dto/CreateReservationDto";
 
 @Controller()
 export class AppController {
@@ -8,8 +9,13 @@ export class AppController {
   @Get()
   @HttpCode(203)
   @Header('Cache-Control', 'no-store')
-  async getHello(): Promise<string> {
-    return this.appService.getMainHeader();
+  async getMainPage(): Promise<string> {
+    return this.appService.getMainMage();
+  }
+
+  @Post('create')
+  async createReservation(@Body() createReservationDto: CreateReservationDto): Promise<string> {
+    return `RESERVATION CREATED. You reserved room with id ${createReservationDto.roomId} from ${createReservationDto.startDate} to ${createReservationDto.endDate}`;
   }
 
   @Get('redirect')

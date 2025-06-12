@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class AppService {
-  getMainHeader(): string {
+  getMainMage(): string {
     return 'Сервис по бронированию гостиниц';
   }
 
