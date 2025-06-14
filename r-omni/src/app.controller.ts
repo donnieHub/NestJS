@@ -1,6 +1,7 @@
-import {Body, Controller, Get, Header, HttpCode, Param, Post, Query, Redirect} from '@nestjs/common';
+import {Body, Controller, Get, Header, HttpCode, Param, ParseIntPipe, Post} from '@nestjs/common';
 import { AppService } from './app.service';
 import {CreateReservationDto} from "./dto/CreateReservationDto";
+import {rooms} from "./rooms";
 
 @Controller()
 export class AppController {
@@ -18,17 +19,9 @@ export class AppController {
     return `RESERVATION CREATED. You reserved room with id ${createReservationDto.roomId} from ${createReservationDto.startDate} to ${createReservationDto.endDate}`;
   }
 
-  @Get('redirect')
-  @Redirect('/', 302)
-  async redirect(@Query('yes') version: string) {
-    if (version && version === 'true') {
-      return { url: 'http://example.org', HttpCode: 301 };
-    }
-  }
-
-  @Get('product/:id')
-  async getProduct(@Param('id') id: number): Promise<string> {
-    console.log('Get product with id: ' + id);
-    return `This action returns a #${id} product`;
+  @Get('room/:id')
+  async getRoomInfo(@Param('id', ParseIntPipe) id: number) {
+    console.log('Get information about room with id: ' + id);
+    return { room: rooms.find((x) => x.id === id) };
   }
 }
