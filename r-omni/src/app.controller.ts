@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Header, HttpCode, Param, ParseIntPipe, Post} from '@nestjs/common';
+import {Body, Controller, Get, Header, HttpCode, Param, ParseIntPipe, Post, Render} from '@nestjs/common';
 import { AppService } from './app.service';
 import {CreateReservationDto} from "./dto/CreateReservationDto";
 import {rooms} from "./rooms";
@@ -8,9 +8,10 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
-  @HttpCode(203)
+  @HttpCode(200)
+  @Render('index')
   @Header('Cache-Control', 'no-store')
-  async getMainPage(): Promise<string> {
+  async getMainPage() {
     return this.appService.getMainMage();
   }
 

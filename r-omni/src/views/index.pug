@@ -1,0 +1,135 @@
+doctype html
+html(lang="ru")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title #{title} | R-Omni
+        link(rel="stylesheet", href="/css/style.css")
+
+    body
+        header.header
+            .container
+                nav.navbar
+                    a.logo(href="/") R-Omni
+                    ul.nav-links
+                        li: a(href="/hotels") Отели
+                        li: a(href="/special-offers") Спецпредложения
+                        li: a(href="/about") О нас
+                        li: a(href="/contact") Контакты
+                    .auth-buttons
+                        a.btn.btn-outline(href="/login") Войти
+                        a.btn.btn-primary(href="/register") Регистрация
+
+        main
+            section.hero
+                .container
+                    h1 Найдете идеальную гостиницу для вашего отдыха
+                    p Сравните цены на отели, апартаменты и многое другое по всему миру
+
+                    form.search-form(action="/search", method="GET")
+                        .form-group
+                            label(for="destination") Направление
+                            input(type="text", id="destination", name="destination", placeholder="Куда вы хотите поехать?", required)
+
+                        .form-group
+                            label(for="checkin") Заезд
+                            input(type="date", id="checkin", name="checkin", required)
+
+                        .form-group
+                            label(for="checkout") Выезд
+                            input(type="date", id="checkout", name="checkout", required)
+
+                        .form-group
+                            label(for="guests") Гости
+                            select(id="guests", name="guests")
+                                option(value="1") 1 гость
+                                option(value="2", selected) 2 гостя
+                                option(value="3") 3 гостя
+                                option(value="4") 4 гостя
+                                option(value="family") Семья
+
+                        button.btn.btn-primary.btn-large(type="submit") Найти отели
+
+            section.popular-destinations
+                .container
+                    h2 Популярные направления
+                    .destinations-grid
+                        a.destination-card(href="/search?destination=Москва")
+                            img(src="/images/moscow.jpg", alt="Москва")
+                            .card-content
+                                h3 Москва
+                                p от 3 500 ₽/ночь
+                        a.destination-card(href="/search?destination=Санкт-Петербург")
+                            img(src="/images/spb.jpg", alt="Санкт-Петербург")
+                            .card-content
+                                h3 Санкт-Петербург
+                                p от 2 800 ₽/ночь
+                        a.destination-card(href="/search?destination=Сочи")
+                            img(src="/images/sochi.jpg", alt="Сочи")
+                            .card-content
+                                h3 Сочи
+                                p от 4 200 ₽/ночь
+                        a.destination-card(href="/search?destination=Калининград")
+                            img(src="/images/kaliningrad.jpg", alt="Калининград")
+                            .card-content
+                                h3 Калининград
+                                p от 3 100 ₽/ночь
+
+            section.features
+                .container
+                    h2 Почему выбирают нас?
+                    .features-grid
+                        .feature
+                            i.fas.fa-percentage
+                            h3 Лучшие цены
+                            p Гарантируем лучшие цены на отели. Нашли дешевле? Вернем разницу!
+                        .feature
+                            i.fas.fa-concierge-bell
+                            h3 Широкий выбор
+                            p Более 1 000 000 отелей, апартаментов и вилл по всему миру
+                        .feature
+                            i.fas.fa-headset
+                            h3 Поддержка 24/7
+                            p Наша служба поддержки всегда готова помочь в любое время суток
+                        .feature
+                            i.fas.fa-shield-alt
+                            h3 Безопасность
+                            p Безопасные платежи и защита персональных данных
+
+        footer.footer
+            .container
+                .footer-grid
+                    .footer-col
+                        h3 R-Omni
+                        p Лучший сервис для бронирования отелей по всему миру
+                        .social-links
+                            a(href="#"): i.fab.fa-vk
+                            a(href="#"): i.fab.fa-telegram
+                            a(href="#"): i.fab.fa-youtube
+                    .footer-col
+                        h3 Компания
+                        ul
+                            li: a(href="/about") О нас
+                            li: a(href="/careers") Карьера
+                            li: a(href="/press") Пресс-центр
+                            li: a(href="/blog") Блог
+                    .footer-col
+                        h3 Помощь
+                        ul
+                            li: a(href="/help") Центр поддержки
+                            li: a(href="/safety") Безопасность
+                            li: a(href="/faq") Частые вопросы
+                    .footer-col
+                        h3 Контакты
+                        ul
+                            li: i.fas.fa-map-marker-alt Москва, ул. Примерная, 123
+                            li: i.fas.fa-phone +7 (495) 123-45-67
+                            li: i.fas.fa-envelope info@R-Omni.ru
+                .footer-bottom
+                    p &copy; 2023 R-Omni. Все права защищены.
+                    .legal-links
+                        a(href="/privacy") Политика конфиденциальности
+                        a(href="/terms") Условия использования
+                        a(href="/cookies") Cookies
+
+        script(src="/js/main.js")
