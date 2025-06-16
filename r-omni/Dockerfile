@@ -1,20 +1,14 @@
 FROM node:22.16.0-alpine3.22
 
-# Устанавливаем зависимости
-WORKDIR /app
-# Копируем файлы, необходимые для установки зависимостей
-# Это делается отдельно для кэширования слоя с зависимостями
-COPY package.json yarn.lock ./
-# Устанавливаем зависимости с помощью Yarn
-RUN yarn install --frozen-lockfile
+RUN corepack enable && corepack prepare yarn@stable --activate
 
-# Копируем исходный код и собираем проект
+WORKDIR /app
+COPY package.json yarn.lock ./
+RUN yarn install --frozen-lockfile && yarn cache clean
+
 COPY . .
-# Собираем приложение
 RUN yarn build
 
-# Открываем порт, на котором работает приложение (по умолчанию NestJS использует 3000)
 EXPOSE 3001
 
-# Команда для запуска приложения
 CMD ["yarn", "start:prod"]
