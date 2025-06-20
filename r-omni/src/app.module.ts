@@ -1,7 +1,7 @@
 import {Module} from '@nestjs/common';
 import {join} from 'path';
-import {AppController} from './app.controller';
-import {AppService} from './app.service';
+import {MainController} from './mainController';
+import {MainService} from './main.service';
 import {ConfigModule} from "@nestjs/config";
 import {AdminController} from "./admin.controller";
 import {ServeStaticModule} from "@nestjs/serve-static";
@@ -14,9 +14,9 @@ import {ServeStaticModule} from "@nestjs/serve-static";
         }),
     ],
     controllers: [
-        AppController,
+        MainController,
         AdminController,
     ],
-    providers: [AppService],
+    providers: [MainService],
 })
 export class AppModule {}
