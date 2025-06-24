@@ -6,8 +6,8 @@ export class AdminController {
   constructor(private readonly appService: MainService) {}
 
   @Get()
-  index(): string {
-    return this.appService.getAdmin();
+  async index(): Promise<string> {
+    return await this.appService.getAdmin();
   }
 
 }

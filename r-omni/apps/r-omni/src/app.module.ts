@@ -10,7 +10,7 @@ import {ServeStaticModule} from "@nestjs/serve-static";
     imports: [
         ConfigModule.forRoot(), // загружает .env файл
         ServeStaticModule.forRoot({
-            rootPath: join(__dirname, '../src/public'),
+            rootPath: join(__dirname, '../r-omni/src/public'),
         }),
     ],
     controllers: [

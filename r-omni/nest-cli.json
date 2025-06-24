@@ -1,8 +1,43 @@
 {
   "$schema": "https://json.schemastore.org/nest-cli",
   "collection": "@nestjs/schematics",
-  "sourceRoot": "src",
+  "sourceRoot": "apps/r-omni/src",
   "compilerOptions": {
-    "deleteOutDir": true
+    "deleteOutDir": true,
+    "webpack": true,
+    "tsConfigPath": "apps/r-omni/tsconfig.app.json",
+    "assets": [
+      {
+        "include": "../src/views/**/*",
+        "outDir": "dist/apps/r-omni/src"
+      },
+      {
+        "include": "../src/public/**/*",
+        "outDir": "dist/apps/r-omni/src"
+      }
+    ],
+    "watchAssets": true
+  },
+  "monorepo": true,
+  "root": "apps/r-omni",
+  "projects": {
+    "r-omni": {
+      "type": "application",
+      "root": "apps/r-omni",
+      "entryFile": "main",
+      "sourceRoot": "apps/r-omni/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/r-omni/tsconfig.app.json"
+      }
+    },
+    "rooms-service": {
+      "type": "application",
+      "root": "apps/rooms-service",
+      "entryFile": "main",
+      "sourceRoot": "apps/rooms-service/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/rooms-service/tsconfig.app.json"
+      }
+    }
   }
 }
