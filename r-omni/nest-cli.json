@@ -29,15 +29,6 @@
       "compilerOptions": {
         "tsConfigPath": "apps/r-omni/tsconfig.app.json"
       }
-    },
-    "rooms-service": {
-      "type": "application",
-      "root": "apps/rooms-service",
-      "entryFile": "main",
-      "sourceRoot": "apps/rooms-service/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/rooms-service/tsconfig.app.json"
-      }
     }
   }
 }
