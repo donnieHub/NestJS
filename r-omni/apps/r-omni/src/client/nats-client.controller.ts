@@ -1,16 +1,58 @@
-import {Controller, Get} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post} from '@nestjs/common';
 import {NatsClientService} from "./nats-client.service";
+import {UserCreate} from "../../../user/src/dto/user.create";
 
 @Controller('user')
 export class NatsClientController {
   constructor(private readonly natsClient: NatsClientService) {}
 
-  @Get('get')
-  async test() {
+  @Get('findAll')
+  async findAll() {
     const response = await this.natsClient
-        .send('users.findOne', 1)
+        .send('user.findAll', '')
         .toPromise();
-    console.log(`NatsClientController: ${response}`);
+    console.log(`NatsClientController: findAll method called`);
+
+    return response;
+  }
+
+  @Get('findOne/:id')
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    const response = await this.natsClient
+        .send('user.findOne', id)
+        .toPromise();
+    console.log(`NatsClientController: findOne method called with id ${id}`);
+
+    return response;
+  }
+
+  @Post('create')
+  async create(@Body() user: UserCreate) {
+    const response = await this.natsClient
+        .send('user.create', user)
+        .toPromise();
+    console.log(`NatsClientController: findOne method called with user ${user}`);
+
+    return response;
+  }
+
+  @Patch('update')
+  async update(@Body() id: number, user: UserCreate) {
+    //TODO починить update, заменить на UserUpdate
+    const response = await this.natsClient
+        .send('user.update', {id, user} )
+        .toPromise();
+    console.log(`NatsClientController: update method called with id ${id} and user ${user}`);
+
+    return response;
+  }
+
+  @Delete(':id')
+  async remove(@Param('id', ParseIntPipe) id: number) {
+    const response = await this.natsClient
+        .send('user.remove', id)
+        .toPromise();
+    console.log(`NatsClientController: remove method called with id ${id}`);
 
     return response;
   }

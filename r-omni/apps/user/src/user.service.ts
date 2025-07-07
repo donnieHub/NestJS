@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import {UserCreate} from "./dto/user.create";
 
 @Injectable()
 export class UserService {
-  private users = [
+  private users: UserCreate[] = [
     { id: 1, name: 'vladimir', email: 'vladimir@example.com' },
     { id: 2, name: 'nikita', email: 'nikita@example.com' },
   ];
@@ -13,6 +14,7 @@ export class UserService {
   }
 
   findOne(id: number) {
+    console.log('UserService findOne method called');
     return this.users.find(user => user.id === id);
   }
 

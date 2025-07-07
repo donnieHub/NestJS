@@ -15,6 +15,7 @@ import {NatsClientController} from "./nats-client.controller";
             },
         ]),
     ],
+
     controllers: [NatsClientController],
     providers: [NatsClientService],
     exports: [NatsClientService],

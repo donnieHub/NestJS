@@ -15,8 +15,8 @@ describe('UserController', () => {
   });
 
   describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(userController.findOne(1)).toBe('vladimir');
+    it('should return "vladimir"', () => {
+      expect(userController.findOne(1)?.name).toBe('vladimir');
     });
   });
 });
