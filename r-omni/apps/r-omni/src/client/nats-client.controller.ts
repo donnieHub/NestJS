@@ -37,12 +37,12 @@ export class NatsClientController {
   }
 
   @Patch('update')
-  async update(@Body() id: number, user: UserCreate) {
+  async update(@Body() data: { id: number; user: UserCreate }) {
     //TODO починить update, заменить на UserUpdate
     const response = await this.natsClient
-        .send('user.update', {id, user} )
+        .send('user.update', data)
         .toPromise();
-    console.log(`NatsClientController: update method called with id ${id} and user ${user}`);
+    console.log(`NatsClientController: update method called with id ${data.id} and user ${data.user}`);
 
     return response;
   }

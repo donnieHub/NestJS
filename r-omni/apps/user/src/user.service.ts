@@ -24,7 +24,8 @@ export class UserService {
     return newUser;
   }
 
-  update(id: number, userData: any) {
+  update(id: number, userData: UserCreate) {
+    console.log('UserService update method called');
     const userIndex = this.users.findIndex(user => user.id === id);
     if (userIndex > -1) {
       this.users[userIndex] = { ...this.users[userIndex], ...userData };
