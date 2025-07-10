@@ -1,7 +1,7 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import {UserService} from "./user.service";
-import {UserCreate} from "./dto/user.create";
+import {UserUpdate} from "./dto/user.update";
 
 @Controller()
 export class UserController {
@@ -25,7 +25,7 @@ export class UserController {
   }
 
   @MessagePattern('user.update')
-  update(@Payload() data: { id: number; user: UserCreate }) {
+  update(@Payload() data: { id: number; user: UserUpdate }) {
     console.log(`UserController update method called`);
     return this.usersService.update(data.id, data.user);
   }

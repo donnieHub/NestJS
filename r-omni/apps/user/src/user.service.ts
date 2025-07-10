@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import {UserCreate} from "./dto/user.create";
+import {UserUpdate} from "./dto/user.update";
 
 @Injectable()
 export class UserService {
@@ -24,7 +25,7 @@ export class UserService {
     return newUser;
   }
 
-  update(id: number, userData: UserCreate) {
+  update(id: number, userData: UserUpdate) {
     console.log('UserService update method called');
     const userIndex = this.users.findIndex(user => user.id === id);
     if (userIndex > -1) {

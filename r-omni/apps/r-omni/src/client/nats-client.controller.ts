@@ -1,6 +1,7 @@
 import {Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post} from '@nestjs/common';
 import {NatsClientService} from "./nats-client.service";
 import {UserCreate} from "../../../user/src/dto/user.create";
+import {UserUpdate} from "../../../user/src/dto/user.update";
 
 @Controller('user')
 export class NatsClientController {
@@ -37,8 +38,7 @@ export class NatsClientController {
   }
 
   @Patch('update')
-  async update(@Body() data: { id: number; user: UserCreate }) {
-    //TODO починить update, заменить на UserUpdate
+  async update(@Body() data: { id: number; user: UserUpdate }) {
     const response = await this.natsClient
         .send('user.update', data)
         .toPromise();
