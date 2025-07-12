@@ -2,22 +2,38 @@ services:
   app:
     build:
       context: r-omni
-      dockerfile: Dockerfile
+      dockerfile: apps/r-omni/Dockerfile
     container_name: nestjs_app
     restart: always
     ports:
       - '3001:3001'
     environment:
       - NODE_ENV=development
-#      - DATABASE_URL=postgresql://postgres:postgres@db:5432/nestdb
+    depends_on:
+      - nats-server
+    networks:
+      - nats-network
+
+  user:
+    build:
+      context: r-omni
+      dockerfile: apps/user/Dockerfile
+    container_name: user
+    restart: always
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - nats-server
+    networks:
+      - nats-network
 
   nats-server:
-    image: nats:latest
+    image: nats:2.11.6
     container_name: nats-server
     command: --http_port 8222 -DV
     ports:
-      - "4222:4222"  # Клиентские подключения (NATS)
-      - "8222:8222"  # Мониторинг (HTTP)
+      - "4222:4222"
+      - "8222:8222"
     restart: unless-stopped
     networks:
       - nats-network
