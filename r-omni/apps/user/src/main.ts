@@ -8,13 +8,12 @@ async function bootstrap() {
         {
             transport: Transport.NATS,
             options: {
-                servers: ['nats://localhost:4222'],
+                servers: [process.env.NATS_URL ?? 'nats://nats-server:4222'],
             },
         },
     );
 
     await app.listen();
-    console.log('UserService is listening');
 }
 
 bootstrap();

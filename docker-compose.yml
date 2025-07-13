@@ -9,6 +9,7 @@ services:
       - '3001:3001'
     environment:
       - NODE_ENV=development
+      - NATS_URL=nats://nats-server:4222
     depends_on:
       - nats-server
     networks:
@@ -22,6 +23,7 @@ services:
     restart: always
     environment:
       - NODE_ENV=development
+      - NATS_URL=nats://nats-server:4222
     depends_on:
       - nats-server
     networks:
