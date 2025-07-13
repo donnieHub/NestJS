@@ -12,4 +12,4 @@ RUN yarn install --frozen-lockfile && yarn cache clean
 COPY . .
 RUN yarn build
 
-CMD ["yarn", "start:prod", "user"]
+CMD ["yarn", "start:dev", "user"]
