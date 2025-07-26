@@ -9,8 +9,8 @@ import {config} from "../mikro-orm.config";
 @Module({
   imports: [
       ConfigModule.forRoot(),
-      MikroOrmModule.forFeature([User]),
       MikroOrmModule.forRoot(config),
+      MikroOrmModule.forFeature([User]),
   ],
   controllers: [UserController],
   providers: [UserService],
