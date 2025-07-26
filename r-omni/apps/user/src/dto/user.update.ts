@@ -1,6 +1,7 @@
 import {IsEmail, IsNotEmpty, IsOptional, IsString, Length} from "class-validator";
 
 export class UserUpdate {
+
     @IsString()
     @IsNotEmpty({ message: 'Name cannot be empty!' })
     @Length(3, 20, {
@@ -8,6 +9,7 @@ export class UserUpdate {
     })
     @IsOptional()
     name?: string;
+
     @IsEmail({}, { message: 'Invalid email format!' })
     @IsOptional()
     email?: string;
