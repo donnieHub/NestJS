@@ -1,18 +1,17 @@
-import {IsEmail, IsInt, IsNotEmpty, IsString, Length} from "class-validator";
+import {IsEmail, IsIn, IsNotEmpty, IsString} from "class-validator";
 
 export class UserCreate {
 
-    @IsInt()
-    id: number;
+    @IsEmail({}, { message: 'Invalid email format!' })
+    @IsNotEmpty({ message: 'Email cannot be empty!' })
+    email: string;
 
     @IsString()
-    @Length(3, 20, {
-        message: 'Name must be between 3 and 20 characters!',
-    })
+    @IsNotEmpty({ message: 'PasswordHash cannot be empty!' })
+    passwordHash: string;
 
-    @IsNotEmpty({ message: 'Name cannot be empty!' })
-    name: string;
-
-    @IsEmail({}, { message: 'Invalid email format!' })
-    email: string;
+    @IsString()
+    @IsNotEmpty({ message: 'Role cannot be empty!' })
+    @IsIn(['user', 'admin', 'manager'], { message: 'role must be one of: user, admin, manager' })
+    role: string;
 }

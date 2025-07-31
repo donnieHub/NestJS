@@ -3,6 +3,7 @@ import {v4} from "uuid";
 
 @Entity({ tableName: 'users' })
 export class User {
+
     @PrimaryKey({ type: 'uuid' })
     id: string = v4();
 
@@ -20,7 +21,7 @@ export class User {
         defaultRaw: 'CURRENT_TIMESTAMP',
         columnType: 'timestamptz'
     })
-    created_at!: Date;
+    created_at?: Date;
 
     constructor(email: string, passwordHash: string, role: string) {
         this.email = email;
