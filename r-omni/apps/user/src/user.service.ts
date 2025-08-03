@@ -1,25 +1,25 @@
 import {HttpException, Injectable} from '@nestjs/common';
 import {UserUpdate} from "./dto/user.update";
-import {InjectRepository} from "@mikro-orm/nestjs";
 import {User} from "./entities/users.entity";
-import {EntityRepository} from "@mikro-orm/core";
 import {UserCreate} from "./dto/user.create";
-import {EntityManager} from "@mikro-orm/postgresql";
+import {UserRepository} from "./user.repository";
+import {EnsureRequestContext, EntityManager} from "@mikro-orm/postgresql";
 
 @Injectable()
 export class UserService {
 
   constructor(
-      @InjectRepository(User)
-      private readonly userRepository: EntityRepository<User>,
+      private readonly userRepository: UserRepository,
       private readonly em: EntityManager,
   ) {}
 
+  @EnsureRequestContext()
   async findAll(): Promise<User[]> {
     console.log('UserService findAll method called');
     return this.userRepository.findAll();
   }
 
+  @EnsureRequestContext()
   async findOne(id: string): Promise<User | null> {
     console.log('UserService findOne method called');
     const user = await this.userRepository.findOne({ id });
@@ -29,6 +29,7 @@ export class UserService {
     return user;
   }
 
+  @EnsureRequestContext()
   async create(userData: UserCreate): Promise<User> {
     const user = this.userRepository.create({
       email: userData.email,
@@ -39,6 +40,7 @@ export class UserService {
     return user;
   }
 
+  @EnsureRequestContext()
   async update(id: string, userData: UserUpdate) {
     console.log('UserService update method called');
 
@@ -50,6 +52,7 @@ export class UserService {
     return user;
   }
 
+  @EnsureRequestContext()
   async remove(id: string): Promise<User | null> {
     const user = await this.userRepository.findOne(id);
 

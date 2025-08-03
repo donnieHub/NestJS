@@ -10,7 +10,7 @@ import {config} from "../mikro-orm.config";
   imports: [
       ConfigModule.forRoot(),
       MikroOrmModule.forRoot(config),
-      MikroOrmModule.forFeature([User]),
+      MikroOrmModule.forFeature({ entities: [User] }),
   ],
   controllers: [UserController],
   providers: [UserService],

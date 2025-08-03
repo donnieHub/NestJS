@@ -9,6 +9,7 @@ export class NatsClientController {
 
   @Get('findAll')
   async findAll() {
+    console.log(`NatsClientController: Before findAll method called`);
     const response = await this.natsClient
         .send('user.findAll', '')
         .toPromise();
@@ -32,6 +33,7 @@ export class NatsClientController {
     const response = await this.natsClient
         .send('user.create', user)
         .toPromise();
+
     console.log(`NatsClientController: findOne method called with user ${user}`);
 
     return response;
