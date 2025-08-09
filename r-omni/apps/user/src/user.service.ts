@@ -1,9 +1,10 @@
-import {HttpException, Injectable} from '@nestjs/common';
+import {Injectable} from '@nestjs/common';
 import {UserUpdate} from "./dto/user.update";
 import {User} from "./entities/users.entity";
 import {UserCreate} from "./dto/user.create";
 import {UserRepository} from "./user.repository";
 import {EnsureRequestContext, EntityManager} from "@mikro-orm/postgresql";
+import {RpcException} from "@nestjs/microservices";
 
 @Injectable()
 export class UserService {
@@ -22,18 +23,23 @@ export class UserService {
   @EnsureRequestContext()
   async findOne(id: string): Promise<User | null> {
     console.log('UserService findOne method called');
-    const user = await this.userRepository.findOne({ id });
-    if (!user) {
-      throw new HttpException(`User with id: ${id} not found`, 401);
-    }
-    return user;
+    return await this.userRepository.findOne({id});
   }
 
   @EnsureRequestContext()
   async create(userData: UserCreate): Promise<User> {
+    const existingUser = await this.userRepository.findOne({ email: userData.email });
+
+    if (existingUser) {
+      throw new RpcException({
+        statusCode: 409,
+        message: 'User with this email already exists',
+      });
+    }
+
     const user = this.userRepository.create({
       email: userData.email,
-      passwordHash: userData.passwordHash, // В реальном приложении нужно хешировать пароль
+      passwordHash: userData.passwordHash,
       role: userData.role || 'user',
     });
     await this.em.persistAndFlush(user);
@@ -41,10 +47,17 @@ export class UserService {
   }
 
   @EnsureRequestContext()
-  async update(id: string, userData: UserUpdate) {
+  async update(userData: UserUpdate): Promise<User | null> {
     console.log('UserService update method called');
 
-    const user = await this.userRepository.findOneOrFail(id);
+    const user = await this.userRepository.findOne(userData.id);
+
+    if (!user) {
+      throw new RpcException({
+        statusCode: 404,
+        message: `User with id:${userData.id} not found`,
+      });
+    }
 
     this.userRepository.assign(user, userData);
     await this.em.flush();
@@ -57,7 +70,10 @@ export class UserService {
     const user = await this.userRepository.findOne(id);
 
     if (!user) {
-      return null;
+      throw new RpcException({
+        statusCode: 404,
+        message: `User with id:${id} not found`,
+      });
     }
 
     await this.em.removeAndFlush(user);

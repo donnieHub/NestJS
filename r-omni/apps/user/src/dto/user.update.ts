@@ -1,6 +1,9 @@
-import {IsEmail, IsIn, IsOptional, IsString} from "class-validator";
+import {IsEmail, IsIn, IsOptional, IsString, IsUUID} from "class-validator";
 
 export class UserUpdate {
+
+    @IsUUID()
+    id: string;
 
     @IsEmail({}, { message: 'Invalid email format!' })
     @IsOptional()

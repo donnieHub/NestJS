@@ -1,14 +1,24 @@
-import {Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post} from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseUUIDPipe,
+  Patch,
+  Post
+} from '@nestjs/common';
 import {NatsClientService} from "./nats-client.service";
 import {UserCreate} from "../../../user/src/dto/user.create";
 import {UserUpdate} from "../../../user/src/dto/user.update";
+import {User} from "../../../user/src/entities/users.entity";
 
 @Controller('user')
 export class NatsClientController {
   constructor(private readonly natsClient: NatsClientService) {}
 
   @Get('findAll')
-  async findAll() {
+  async findAll(): Promise<User[]> {
     console.log(`NatsClientController: Before findAll method called`);
     const response = await this.natsClient
         .send('user.findAll', '')
@@ -19,7 +29,7 @@ export class NatsClientController {
   }
 
   @Get('findOne/:id')
-  async findOne(@Param('id', ParseIntPipe) id: number) {
+  async findOne(@Param('id', ParseUUIDPipe) id: string): Promise<User | null> {
     const response = await this.natsClient
         .send('user.findOne', id)
         .toPromise();
@@ -29,28 +39,25 @@ export class NatsClientController {
   }
 
   @Post('create')
-  async create(@Body() user: UserCreate) {
-    const response = await this.natsClient
-        .send('user.create', user)
-        .toPromise();
-
-    console.log(`NatsClientController: findOne method called with user ${user}`);
+  async create(@Body() user: UserCreate): Promise<User | null> {
+    const response = await this.natsClient.send('user.create', user).toPromise();
+    console.log(`NatsClientController: create method called with user ${user}`);
 
     return response;
   }
 
   @Patch('update')
-  async update(@Body() data: { id: number; user: UserUpdate }) {
+  async update(@Body() user: UserUpdate ): Promise<User | null> {
     const response = await this.natsClient
-        .send('user.update', data)
+        .send('user.update', user)
         .toPromise();
-    console.log(`NatsClientController: update method called with id ${data.id} and user ${data.user}`);
+    console.log(`NatsClientController: update method called with id ${user.id} and email ${user.email}`);
 
     return response;
   }
 
   @Delete(':id')
-  async remove(@Param('id', ParseIntPipe) id: number) {
+  async remove(@Param('id', ParseUUIDPipe) id: string): Promise<User | null> {
     const response = await this.natsClient
         .send('user.remove', id)
         .toPromise();
