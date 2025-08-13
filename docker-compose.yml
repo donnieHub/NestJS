@@ -31,7 +31,11 @@ services:
       - DB_USER=postgres
       - DB_PASSWORD=postgres
     depends_on:
-      - nats-server
+      nats-server:
+        condition: service_started
+      auth_service_db:
+        condition: service_healthy
+    command: sh -c "yarn migration:users:up && yarn start:dev user"
     networks:
       - nats-network
 
