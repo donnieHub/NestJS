@@ -25,6 +25,11 @@ services:
     environment:
       - NODE_ENV=development
       - NATS_URL=nats://nats-server:4222
+      - DB_NAME=auth_service_db
+      - DB_HOST=auth_service_db
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
     depends_on:
       - nats-server
     networks:
@@ -38,7 +43,7 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=auth_service_db
     ports:
-      - '5432:5432'
+      - '5434:5432'
     volumes:
       - auth_service_data:/var/lib/postgresql/data
     healthcheck:
@@ -46,6 +51,8 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+    networks:
+      - nats-network
 
   nats-server:
     image: nats:2.11.6
