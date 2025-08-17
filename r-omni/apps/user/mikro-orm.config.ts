@@ -2,6 +2,9 @@ import { Options } from '@mikro-orm/core';
 import {PostgreSqlDriver} from "@mikro-orm/postgresql";
 import {User} from "./src/entities/users.entity";
 import * as path from "node:path";
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 export const config: Options<PostgreSqlDriver> = {
     entities: [User],
