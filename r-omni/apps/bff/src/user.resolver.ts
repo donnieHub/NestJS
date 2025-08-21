@@ -1,8 +1,8 @@
 import { Resolver, Query, Mutation, Args, ID } from '@nestjs/graphql';
-import {NatsClientService} from "../../r-omni/src/client/nats-client.service";
 import {UserModel} from "./model/user.model";
 import {CreateUserInput} from "./dto/create.user.input";
 import {UpdateUserInput} from "./dto/update.user.input";
+import {NatsClientService} from "./nats-client.service";
 
 @Resolver(() => UserModel)
 export class UserResolver {
@@ -11,6 +11,11 @@ export class UserResolver {
     @Query(() => [UserModel])
     async users(): Promise<UserModel[]> {
         return this.natsClient.send('user.findAll', '').toPromise();
+        // const response: UserModel[] = await this.natsClient.send('user.findAll', '').toPromise();
+        // return response.map(user => ({
+        //     ...user,
+        //     created_at: new Date(user.created_at),
+        // }));
     }
 
     @Query(() => UserModel, { nullable: true })
@@ -20,7 +25,6 @@ export class UserResolver {
 
     @Mutation(() => UserModel, { nullable: true })
     async createUser(@Args('input') input: CreateUserInput): Promise<UserModel | null> {
-        // ⚠️ Пароль нужно хэшировать в user-сервисе, а BFF просто проксирует
         return this.natsClient.send('user.create', input).toPromise();
     }
 
