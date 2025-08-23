@@ -6,7 +6,7 @@ import {UserResolver} from "./user.resolver";
 import {ClientsModule, Transport} from "@nestjs/microservices";
 import {NatsClientService} from "./nats-client.service";
 import {ConfigModule} from "@nestjs/config";
-import {DateTimeScalar} from "./model/DateTimeScalar";
+import {DateTimeScalar} from "./model/date.time.scalar";
 
 @Module({
   imports: [

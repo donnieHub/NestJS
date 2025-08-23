@@ -11,11 +11,6 @@ export class UserResolver {
     @Query(() => [UserModel])
     async users(): Promise<UserModel[]> {
         return this.natsClient.send('user.findAll', '').toPromise();
-        // const response: UserModel[] = await this.natsClient.send('user.findAll', '').toPromise();
-        // return response.map(user => ({
-        //     ...user,
-        //     created_at: new Date(user.created_at),
-        // }));
     }
 
     @Query(() => UserModel, { nullable: true })
