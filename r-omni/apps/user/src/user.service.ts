@@ -5,6 +5,7 @@ import {UserCreate} from "./dto/user.create";
 import {UserRepository} from "./user.repository";
 import {EnsureRequestContext, EntityManager} from "@mikro-orm/postgresql";
 import {RpcException} from "@nestjs/microservices";
+import { hash } from 'bcrypt';
 
 @Injectable()
 export class UserService {
@@ -28,6 +29,8 @@ export class UserService {
 
   @EnsureRequestContext()
   async create(userData: UserCreate): Promise<User> {
+    const saltRounds = 10;
+    const passwordHash = await hash(userData.password, saltRounds);
     const existingUser = await this.userRepository.findOne({ email: userData.email });
 
     if (existingUser) {
@@ -39,7 +42,7 @@ export class UserService {
 
     const user = this.userRepository.create({
       email: userData.email,
-      passwordHash: userData.passwordHash,
+      passwordHash: passwordHash,
       role: userData.role || 'user',
     });
     await this.em.persistAndFlush(user);
