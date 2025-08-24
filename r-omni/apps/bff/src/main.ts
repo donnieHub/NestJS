@@ -1,8 +1,14 @@
 import { NestFactory } from '@nestjs/core';
 import { BffModule } from './bff.module';
+import {ValidationPipe} from "@nestjs/common";
 
 async function bootstrap() {
   const app = await NestFactory.create(BffModule);
+  app.useGlobalPipes(new ValidationPipe({
+    whitelist: true,
+    forbidNonWhitelisted: true,
+    transform: true,
+  }));
   await app.listen(process.env.port ?? 3000);
 }
 bootstrap();

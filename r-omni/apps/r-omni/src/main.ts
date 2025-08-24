@@ -8,7 +8,11 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, { abortOnError: false });
   app.setBaseViewsDir(join(__dirname, '../r-omni/src/views'));
   app.setViewEngine('pug');
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(new ValidationPipe({
+    whitelist: true,
+    forbidNonWhitelisted: true,
+    transform: true,
+  }));
   await app.listen(process.env.PORT ?? 3000, '0.0.0.0');
 }
 bootstrap();
