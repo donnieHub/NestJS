@@ -30,6 +30,15 @@
         "tsConfigPath": "apps/bff/tsconfig.app.json"
       }
     },
+    "booking": {
+      "type": "application",
+      "root": "apps/booking",
+      "entryFile": "main",
+      "sourceRoot": "apps/booking/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/booking/tsconfig.app.json"
+      }
+    },
     "r-omni": {
       "type": "application",
       "root": "apps/r-omni",
