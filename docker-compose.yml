@@ -47,7 +47,7 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=auth_service_db
     ports:
-      - '54340:5432'
+      - '54320:5432'
     volumes:
       - auth_service_data:/var/lib/postgresql/data
     healthcheck:
@@ -66,7 +66,7 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=booking_service_db
     ports:
-      - '54341:5432'
+      - '54321:5432'
     volumes:
       - booking_service_data:/var/lib/postgresql/data
     healthcheck:
