@@ -47,9 +47,28 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=auth_service_db
     ports:
-      - '5434:5432'
+      - '54340:5432'
     volumes:
       - auth_service_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - nats-network
+
+  booking_service_db:
+    image: postgres:17.5
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=booking_service_db
+    ports:
+      - '54341:5432'
+    volumes:
+      - booking_service_data:/var/lib/postgresql/data
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       interval: 5s
@@ -75,3 +94,4 @@ networks:
 
 volumes:
   auth_service_data:
+  booking_service_data:
