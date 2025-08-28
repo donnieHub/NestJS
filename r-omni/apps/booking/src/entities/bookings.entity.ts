@@ -1,13 +1,11 @@
 import {
     Entity,
-    EntityRepositoryType,
-    ManyToOne,
+    EntityRepositoryType, Enum,
     PrimaryKey,
     Property
 } from '@mikro-orm/core';
 import {v4} from "uuid";
 import {BookingRepository} from "../booking.repository";
-import {User} from "../../../user/src/entities/users.entity";
 
 @Entity({ tableName: 'Booking', repository: () => BookingRepository })
 export class Booking {
@@ -17,8 +15,8 @@ export class Booking {
     @PrimaryKey({ type: 'uuid' })
     id: string = v4();
 
-    @ManyToOne(() => User, { fieldName: 'user_id' })
-    user: User;
+    @Property({ type: 'uuid' })
+    user_id: string;
 
     @Property({ type: 'uuid' })
     room_id: string;
@@ -29,21 +27,29 @@ export class Booking {
     @Property({ type: 'datetime' })
     date_to: Date;
 
-    @Property({ type: 'varchar', length: 100 })
-    status: string;
+    @Enum({ items: () => BookingStatus, type: 'varchar', length: 100 })
+    status: BookingStatus;
 
     @Property({
         type: 'timestamp',
         defaultRaw: 'CURRENT_TIMESTAMP',
         columnType: 'timestamptz'
     })
-    created_at?: Date;
+    created_at: Date;
 
-    constructor(user: User, room_id: string, date_from: Date, date_to: Date, status: string) {
-        this.user = user;
+    constructor(user_id: string, room_id: string, date_from: Date, date_to: Date, status: BookingStatus) {
+        this.user_id = user_id;
         this.room_id = room_id;
         this.date_from = date_from;
         this.date_to = date_to;
         this.status = status;
     }
+}
+
+export enum BookingStatus {
+    PENDING = 'pending',
+    CONFIRMED = 'confirmed',
+    CANCELLED = 'cancelled',
+    COMPLETED = 'completed',
+    REJECTED = 'rejected',
 }
