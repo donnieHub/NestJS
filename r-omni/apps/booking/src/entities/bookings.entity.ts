@@ -35,7 +35,7 @@ export class Booking {
         defaultRaw: 'CURRENT_TIMESTAMP',
         columnType: 'timestamptz'
     })
-    created_at: Date;
+    created_at?: Date;
 
     constructor(user_id: string, room_id: string, date_from: Date, date_to: Date, status: BookingStatus) {
         this.user_id = user_id;
