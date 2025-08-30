@@ -2,7 +2,7 @@ import {Controller, Logger} from '@nestjs/common';
 import { BookingService } from './booking.service';
 import {MessagePattern, Payload} from "@nestjs/microservices";
 import {Booking} from "./entities/bookings.entity";
-import {BookingCreate} from "./dto/booking.create";
+import {BookingInput} from "./dto/booking.input";
 
 @Controller()
 export class BookingController {
@@ -17,7 +17,7 @@ export class BookingController {
   }
 
   @MessagePattern('booking.create')
-  create(@Payload() booking: BookingCreate): Promise<Booking> {
+  create(@Payload() booking: BookingInput): Promise<Booking> {
     this.logger.log(`Received request: user.create with data=${JSON.stringify(booking)}`);
     return this.bookingService.create(booking);
   }

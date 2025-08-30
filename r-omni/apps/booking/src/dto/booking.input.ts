@@ -2,7 +2,12 @@ import {IsDate, IsNotEmpty, IsUUID} from "class-validator";
 import {Field, InputType} from "@nestjs/graphql";
 
 @InputType()
-export class BookingCreate {
+export class BookingInput {
+
+    @IsUUID()
+    @IsNotEmpty({ message: 'User ID cannot be empty!' })
+    @Field()
+    user_id: string;
 
     @IsUUID()
     @IsNotEmpty({ message: 'Room ID cannot be empty!' })

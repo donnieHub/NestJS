@@ -3,7 +3,7 @@ import {EnsureRequestContext, EntityManager} from "@mikro-orm/postgresql";
 import {RpcException} from "@nestjs/microservices";
 import {BookingRepository} from "./booking.repository";
 import {Booking} from "./entities/bookings.entity";
-import {BookingCreate} from "./dto/booking.create";
+import {BookingInput} from "./dto/booking.input";
 import {BookingStatus} from "./entities/booking.status";
 
 @Injectable()
@@ -22,21 +22,15 @@ export class BookingService {
   }
 
   @EnsureRequestContext()
-  async create(bookingData: BookingCreate): Promise<Booking> {
+  async create(bookingData: BookingInput): Promise<Booking> {
+    this.logger.log(`Checking room with room_id=${bookingData.room_id} free`);
+    //const rooms = await this.roomsService.rooms(dateRangeInput));
+    //if (room_id exists in rooms) {
     this.logger.log(`Creating booking with room_id=${bookingData.room_id}`);
-    const existingBooking = await this.bookingRepository.findOne({ room_id: bookingData.room_id });
-
-    if (existingBooking) {
-      this.logger.warn(`Booking with room_id=${bookingData.room_id} already exists`);
-      throw new RpcException({
-        statusCode: 409,
-        message: 'Booking with this room_id already exists',
-      });
-    }
 
     const booking = this.bookingRepository.create({
-      user_id: "",
-      status: BookingStatus.PENDING,
+      user_id: bookingData.user_id,
+      status: BookingStatus.CONFIRMED,
       room_id: bookingData.room_id,
       date_from: bookingData.date_from,
       date_to: bookingData.date_to,
@@ -46,6 +40,7 @@ export class BookingService {
 
     this.logger.log(`Booking created: id=${booking.id}`);
     return booking;
+    //else { throw new RpcException({ message: `Room with room_id already booked on these dates` });}
   }
 
   @EnsureRequestContext()
