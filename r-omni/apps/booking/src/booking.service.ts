@@ -2,8 +2,9 @@ import {Injectable, Logger} from '@nestjs/common';
 import {EnsureRequestContext, EntityManager} from "@mikro-orm/postgresql";
 import {RpcException} from "@nestjs/microservices";
 import {BookingRepository} from "./booking.repository";
-import {Booking, BookingStatus} from "./entities/bookings.entity";
+import {Booking} from "./entities/bookings.entity";
 import {BookingCreate} from "./dto/booking.create";
+import {BookingStatus} from "./entities/booking.status";
 
 @Injectable()
 export class BookingService {

@@ -7,6 +7,7 @@ import {ClientsModule, Transport} from "@nestjs/microservices";
 import {NatsClientService} from "./nats-client.service";
 import {ConfigModule} from "@nestjs/config";
 import {DateTimeScalar} from "./model/date.time.scalar";
+import {BookingResolver} from "./booking.resolver";
 
 @Module({
   imports: [
@@ -28,6 +29,6 @@ import {DateTimeScalar} from "./model/date.time.scalar";
     ]),
   ],
   controllers: [],
-  providers: [UserResolver, NatsClientService, DateTimeScalar],
+  providers: [UserResolver, BookingResolver, NatsClientService, DateTimeScalar],
 })
 export class BffModule {}

@@ -82,11 +82,11 @@
           "mappedType": "datetime"
         }
       },
-      "name": "Booking",
+      "name": "bookings",
       "schema": "public",
       "indexes": [
         {
-          "keyName": "Booking_pkey",
+          "keyName": "bookings_pkey",
           "columnNames": [
             "id"
           ],

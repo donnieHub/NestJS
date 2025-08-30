@@ -6,8 +6,9 @@ import {
 } from '@mikro-orm/core';
 import {v4} from "uuid";
 import {BookingRepository} from "../booking.repository";
+import {BookingStatus} from "./booking.status";
 
-@Entity({ tableName: 'Booking', repository: () => BookingRepository })
+@Entity({ tableName: 'bookings', repository: () => BookingRepository })
 export class Booking {
 
     [EntityRepositoryType]?: BookingRepository;
@@ -44,12 +45,4 @@ export class Booking {
         this.date_to = date_to;
         this.status = status;
     }
-}
-
-export enum BookingStatus {
-    PENDING = 'pending',
-    CONFIRMED = 'confirmed',
-    CANCELLED = 'cancelled',
-    COMPLETED = 'completed',
-    REJECTED = 'rejected',
 }

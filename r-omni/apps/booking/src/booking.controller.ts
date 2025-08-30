@@ -22,7 +22,7 @@ export class BookingController {
     return this.bookingService.create(booking);
   }
 
-  @MessagePattern('booking.remove')
+  @MessagePattern('booking.cancel')
   remove(@Payload() id: string): Promise<Booking | null> {
     this.logger.log(`Received request: user.remove with id=${id}`);
     return this.bookingService.cancel(id);

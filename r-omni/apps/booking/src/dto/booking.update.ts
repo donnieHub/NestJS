@@ -1,9 +1,13 @@
 import {IsDate, IsIn, IsNotEmpty, IsOptional, IsUUID} from "class-validator";
 import {Field, InputType} from "@nestjs/graphql";
-import {BookingStatus} from "../entities/bookings.entity";
+import {BookingStatus} from "../entities/booking.status";
 
 @InputType()
 export class BookingUpdate {
+
+    @IsUUID()
+    @Field()
+    id: string;
 
     @IsUUID()
     @IsNotEmpty({ message: 'Room ID cannot be empty!' })
