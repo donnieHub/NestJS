@@ -39,6 +39,9 @@ export class BookingService {
     await this.em.persistAndFlush(booking);
 
     this.logger.log(`Booking created: id=${booking.id}`);
+
+    //Обновление статуса номера (Rooms Service)
+
     return booking;
     //else { throw new RpcException({ message: `Room with room_id already booked on these dates` });}
   }
@@ -46,6 +49,9 @@ export class BookingService {
   @EnsureRequestContext()
   async cancel(id: string): Promise<boolean> {
     this.logger.log(`Try to cancel booking with id=${id}`);
+
+    // Проверка прав пользователя (Auth Service)
+
     const booking = await this.bookingRepository.findOne(id);
 
     if (!booking) {
@@ -61,6 +67,8 @@ export class BookingService {
 
     this.bookingRepository.assign(booking, { status: BookingStatus.CANCELLED });
     await this.em.flush();
+
+    //Освобождение номера в Rooms Service
 
     this.logger.log(`Booking successfully canceled: id=${id}`);
     return true;
