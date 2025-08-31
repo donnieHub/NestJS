@@ -48,6 +48,15 @@
         "tsConfigPath": "apps/r-omni/tsconfig.app.json"
       }
     },
+    "rooms": {
+      "type": "application",
+      "root": "apps/rooms",
+      "entryFile": "main",
+      "sourceRoot": "apps/rooms/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/rooms/tsconfig.app.json"
+      }
+    },
     "user": {
       "type": "application",
       "root": "apps/user",
