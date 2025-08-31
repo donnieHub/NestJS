@@ -1,7 +1,7 @@
 import {Injectable, Logger} from '@nestjs/common';
 import {EnsureRequestContext, EntityManager} from "@mikro-orm/postgresql";
 import {BookingRepository} from "./booking.repository";
-import {Booking} from "./entities/bookings.entity";
+import {Booking} from "./entities/booking.entity";
 import {BookingInput} from "./dto/booking.input";
 import {BookingStatus} from "./entities/booking.status";
 

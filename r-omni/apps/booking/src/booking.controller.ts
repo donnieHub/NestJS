@@ -1,7 +1,7 @@
 import {Controller, Logger} from '@nestjs/common';
 import { BookingService } from './booking.service';
 import {MessagePattern, Payload} from "@nestjs/microservices";
-import {Booking} from "./entities/bookings.entity";
+import {Booking} from "./entities/booking.entity";
 import {BookingInput} from "./dto/booking.input";
 
 @Controller()

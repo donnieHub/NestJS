@@ -2,7 +2,7 @@ import { Options } from '@mikro-orm/core';
 import {PostgreSqlDriver} from "@mikro-orm/postgresql";
 import * as path from "node:path";
 import * as dotenv from 'dotenv';
-import {Booking} from "./src/entities/bookings.entity";
+import {Booking} from "./src/entities/booking.entity";
 
 dotenv.config();
 
