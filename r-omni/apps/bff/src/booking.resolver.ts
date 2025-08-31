@@ -23,7 +23,7 @@ export class BookingResolver {
         return this.natsClient.send('booking.create', input).toPromise();
     }
 
-    @Mutation(() => BookingModel, { nullable: true })
+    @Mutation(() => Boolean, { nullable: true })
     async cancelBooking(@Args('id', { type: () => ID }, ParseUUIDPipe) id: string): Promise<boolean> {
         this.logger.log(`GraphQL mutation: cancelBooking id=${id}`);
         return this.natsClient.send('booking.cancel', id).toPromise();

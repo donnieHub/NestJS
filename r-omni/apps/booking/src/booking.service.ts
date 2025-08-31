@@ -1,6 +1,5 @@
 import {Injectable, Logger} from '@nestjs/common';
 import {EnsureRequestContext, EntityManager} from "@mikro-orm/postgresql";
-import {RpcException} from "@nestjs/microservices";
 import {BookingRepository} from "./booking.repository";
 import {Booking} from "./entities/bookings.entity";
 import {BookingInput} from "./dto/booking.input";
@@ -24,6 +23,7 @@ export class BookingService {
   @EnsureRequestContext()
   async create(bookingData: BookingInput): Promise<Booking> {
     this.logger.log(`Checking room with room_id=${bookingData.room_id} free`);
+    //check user exist and have enough rights
     //const rooms = await this.roomsService.rooms(dateRangeInput));
     //if (room_id exists in rooms) {
     this.logger.log(`Creating booking with room_id=${bookingData.room_id}`);
@@ -44,21 +44,25 @@ export class BookingService {
   }
 
   @EnsureRequestContext()
-  async cancel(id: string): Promise<Booking | null> {
-    this.logger.log(`Removing booking with id=${id}`);
+  async cancel(id: string): Promise<boolean> {
+    this.logger.log(`Try to cancel booking with id=${id}`);
     const booking = await this.bookingRepository.findOne(id);
 
     if (!booking) {
-      this.logger.warn(`Booking not found for removal: id=${id}`);
-      throw new RpcException({
-        statusCode: 404,
-        message: `Booking with id:${id} not found`,
-      });
+      this.logger.warn(`Booking not found for cancel: id=${id}`);
+      return false;
+    }
+    this.logger.log(`Booking with id=${id} are found in repository`);
+
+    if (booking.status === BookingStatus.CANCELLED) {
+      this.logger.warn(`Booking already canceled: id=${id}`);
+      return false;
     }
 
-    await this.em.removeAndFlush(booking);
+    this.bookingRepository.assign(booking, { status: BookingStatus.CANCELLED });
+    await this.em.flush();
 
-    this.logger.log(`Booking removed: id=${id}`);
-    return booking;
+    this.logger.log(`Booking successfully canceled: id=${id}`);
+    return true;
   }
 }

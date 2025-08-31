@@ -12,19 +12,19 @@ export class BookingController {
 
   @MessagePattern('booking.findAll')
   findAll(): Promise<Booking[]> {
-    this.logger.log('Received request: user.findAll');
+    this.logger.log('Received request: booking.findAll');
     return this.bookingService.findAll();
   }
 
   @MessagePattern('booking.create')
   create(@Payload() booking: BookingInput): Promise<Booking> {
-    this.logger.log(`Received request: user.create with data=${JSON.stringify(booking)}`);
+    this.logger.log(`Received request: booking.create with data=${JSON.stringify(booking)}`);
     return this.bookingService.create(booking);
   }
 
   @MessagePattern('booking.cancel')
-  remove(@Payload() id: string): Promise<Booking | null> {
-    this.logger.log(`Received request: user.remove with id=${id}`);
+  cancel(@Payload() id: string): Promise<boolean> {
+    this.logger.log(`Received request: booking.cancel with id=${id}`);
     return this.bookingService.cancel(id);
   }
 }
