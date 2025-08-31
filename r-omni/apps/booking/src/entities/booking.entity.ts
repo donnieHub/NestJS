@@ -28,7 +28,7 @@ export class Booking {
     @Property({ type: 'datetime' })
     date_to: Date;
 
-    @Enum({ items: () => BookingStatus, type: 'varchar', length: 100 })
+    @Enum({ items: () => BookingStatus, type: 'varchar', length: 50 })
     status: BookingStatus;
 
     @Property({
