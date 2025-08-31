@@ -1,7 +1,7 @@
 import {Body, Controller, Get, Header, HttpCode, Param, ParseIntPipe, Post, Render} from '@nestjs/common';
 import { MainService } from './main.service';
 import {CreateReservationDto} from "./dto/CreateReservationDto";
-import {rooms} from "./rooms";
+import {rooms} from "./rooms.old";
 
 @Controller()
 export class MainController {

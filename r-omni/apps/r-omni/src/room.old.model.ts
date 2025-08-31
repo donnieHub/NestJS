@@ -1,4 +1,4 @@
-export class Room {
+export class RoomOld {
     id?: number;
     type: string;
     description: string;
