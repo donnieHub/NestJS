@@ -1,5 +1,6 @@
 import {IsEmail, IsIn, IsNotEmpty, IsString, MinLength} from "class-validator";
 import {Field, InputType} from "@nestjs/graphql";
+import {UserRole} from "../entities/user.role";
 
 @InputType()
 export class UserCreate {
@@ -19,5 +20,5 @@ export class UserCreate {
     @IsNotEmpty({ message: 'Role cannot be empty!' })
     @IsIn(['user', 'admin', 'manager'], { message: 'role must be one of: user, admin, manager' })
     @Field()
-    role: string;
+    role: UserRole;
 }

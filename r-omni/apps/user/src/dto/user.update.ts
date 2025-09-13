@@ -1,5 +1,6 @@
 import {IsEmail, IsIn, IsOptional, IsString, IsUUID} from "class-validator";
 import {Field, InputType} from "@nestjs/graphql";
+import {UserRole} from "../entities/user.role";
 
 @InputType()
 export class UserUpdate {
@@ -22,5 +23,5 @@ export class UserUpdate {
     @IsOptional()
     @IsIn(['user', 'admin', 'manager'], { message: 'role must be one of: user, admin, manager' })
     @Field({ nullable: true })
-    role?: string;
+    role?: UserRole;
 }

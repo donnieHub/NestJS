@@ -5,7 +5,8 @@ import {UserCreate} from "./dto/user.create";
 import {UserRepository} from "./user.repository";
 import {EnsureRequestContext, EntityManager} from "@mikro-orm/postgresql";
 import {RpcException} from "@nestjs/microservices";
-import { hash } from 'bcrypt';
+import {hash} from 'bcrypt';
+import {UserRole} from "./entities/user.role";
 
 @Injectable()
 export class UserService {
@@ -46,7 +47,7 @@ export class UserService {
     const user = this.userRepository.create({
       email: userData.email,
       passwordHash: passwordHash,
-      role: userData.role || 'user',
+      role: userData.role || UserRole.USER,
     });
 
     await this.em.persistAndFlush(user);

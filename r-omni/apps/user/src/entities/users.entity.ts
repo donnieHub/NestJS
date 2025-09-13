@@ -1,6 +1,7 @@
-import {Entity, EntityRepositoryType, PrimaryKey, Property} from '@mikro-orm/core';
+import {Entity, EntityRepositoryType, Enum, PrimaryKey, Property} from '@mikro-orm/core';
 import {v4} from "uuid";
 import {UserRepository} from "../user.repository";
+import {UserRole} from "./user.role";
 
 @Entity({ tableName: 'users', repository: () => UserRepository })
 export class User {
@@ -16,8 +17,8 @@ export class User {
     @Property({ type: 'varchar', length: 255, hidden: true })
     passwordHash: string;
 
-    @Property({ type: 'varchar', length: 50 })
-    role: string;
+    @Enum({ items: () => UserRole, type: 'varchar', length: 50 })
+    role: UserRole = UserRole.USER;
 
     @Property({
         type: 'timestamp',
@@ -26,7 +27,7 @@ export class User {
     })
     created_at?: Date;
 
-    constructor(email: string, passwordHash: string, role: string) {
+    constructor(email: string, passwordHash: string, role: UserRole) {
         this.email = email;
         this.passwordHash = passwordHash;
         this.role = role;
