@@ -7,6 +7,7 @@ import {UserUpdate} from "../../user/src/dto/user.update";
 import {AuthPayload} from "./model/auth.payload";
 import {RegisterInput} from "../../user/src/dto/register.input";
 import {LoginInput} from "../../user/src/dto/login.input";
+import {firstValueFrom} from "rxjs";
 
 @Resolver(() => UserModel)
 export class UserResolver {
@@ -16,41 +17,43 @@ export class UserResolver {
 
     @Mutation(() => AuthPayload)
     async register(@Args('input') input: RegisterInput): Promise<AuthPayload>  {
-        return this.natsClient.send('user.register', input).toPromise();
+        this.logger.log(`GraphQL mutation: register user with email=${input.email}`);
+        return firstValueFrom(this.natsClient.send('user.register', input));
     }
 
     @Mutation(() => AuthPayload)
     async login(@Args('input') input: LoginInput): Promise<AuthPayload> {
-        return this.natsClient.send('user.login', input).toPromise();
+        this.logger.log(`GraphQL mutation: login user with email=${input.email}`);
+        return firstValueFrom(this.natsClient.send('user.login', input));
     }
 
     @Query(() => [UserModel])
     async users(): Promise<UserModel[]> {
         this.logger.log('GraphQL query: users');
-        return this.natsClient.send('user.findAll', '').toPromise();
+        return firstValueFrom(this.natsClient.send('user.findAll', ''));
     }
 
     @Query(() => UserModel, { nullable: true })
     async user(@Args('id', { type: () => ID }, ParseUUIDPipe ) id: string): Promise<UserModel | null> {
         this.logger.log(`GraphQL query: user with id=${id}`);
-        return this.natsClient.send('user.findOne', id).toPromise();
+        return firstValueFrom(this.natsClient.send('user.findOne', id));
     }
 
     @Mutation(() => UserModel, { nullable: true })
     async createUser(@Args('input') input: UserCreate): Promise<UserModel | null> {
         this.logger.log(`GraphQL mutation: createUser with email=${input.email}`);
-        return this.natsClient.send('user.create', input).toPromise();
+        return firstValueFrom(this.natsClient.send('user.create', input));
     }
 
     @Mutation(() => UserModel, { nullable: true })
     async updateUser(@Args('input') input: UserUpdate): Promise<UserModel | null> {
         this.logger.log(`GraphQL mutation: updateUser id=${input.id}`);
-        return this.natsClient.send('user.update', input).toPromise();
+        return firstValueFrom(this.natsClient.send('user.update', input));
     }
 
     @Mutation(() => UserModel, { nullable: true })
     async removeUser(@Args('id', { type: () => ID }, ParseUUIDPipe) id: string): Promise<UserModel | null> {
         this.logger.log(`GraphQL mutation: removeUser id=${id}`);
-        return this.natsClient.send('user.remove', id).toPromise();
+        return firstValueFrom(this.natsClient.send('user.remove', id));
     }
 }
