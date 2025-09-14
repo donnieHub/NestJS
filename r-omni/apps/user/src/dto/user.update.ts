@@ -21,7 +21,7 @@ export class UserUpdate {
 
     @IsString()
     @IsOptional()
-    @IsIn(['user', 'admin', 'manager'], { message: 'role must be one of: user, admin, manager' })
-    @Field({ nullable: true })
+    @IsIn(Object.values(UserRole), { message: 'role must be one of: user, admin, manager' })
+    @Field(() => UserRole, { nullable: true })
     role?: UserRole;
 }

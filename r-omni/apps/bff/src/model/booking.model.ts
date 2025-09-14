@@ -12,15 +12,15 @@ export class BookingModel {
     @Field()
     room_id: string;
 
-    @Field(() => Date, { nullable: false })
+    @Field(() => Date)
     date_from: Date;
 
-    @Field(() => Date, { nullable: false })
+    @Field(() => Date)
     date_to: Date;
 
-    @Field(() => BookingStatus, { nullable: false })
+    @Field(() => BookingStatus)
     status: BookingStatus;
 
-    @Field(() => Date, { nullable: false })
+    @Field(() => Date)
     created_at: Date;
 }

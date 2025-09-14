@@ -4,12 +4,27 @@ import {UserService} from "./user.service";
 import {UserUpdate} from "./dto/user.update";
 import {UserCreate} from "./dto/user.create";
 import {User} from "./entities/users.entity";
+import {LoginInput} from "./dto/login.input";
+import {RegisterInput} from "./dto/register.input";
+import {AuthPayload} from "../../bff/src/model/auth.payload";
 
 @Controller()
 export class UserController {
   private readonly logger = new Logger(UserController.name);
 
   constructor(private readonly usersService: UserService) {}
+
+  @MessagePattern('user.login')
+  login(@Payload() loginInput: LoginInput): Promise<AuthPayload> {
+    this.logger.log('Received request: user.login');
+    return this.usersService.login(loginInput);
+  }
+
+  @MessagePattern('user.register')
+  register(@Payload() registerInput: RegisterInput): Promise<User> {
+    this.logger.log('Received request: user.register');
+    return this.usersService.register(registerInput);
+  }
 
   @MessagePattern('user.findAll')
   findAll(): Promise<User[]> {

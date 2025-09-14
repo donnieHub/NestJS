@@ -4,12 +4,25 @@ import {NatsClientService} from "./nats-client.service";
 import {Logger, ParseUUIDPipe} from "@nestjs/common";
 import {UserCreate} from "../../user/src/dto/user.create";
 import {UserUpdate} from "../../user/src/dto/user.update";
+import {AuthPayload} from "./model/auth.payload";
+import {RegisterInput} from "../../user/src/dto/register.input";
+import {LoginInput} from "../../user/src/dto/login.input";
 
 @Resolver(() => UserModel)
 export class UserResolver {
     private readonly logger = new Logger(UserResolver.name);
 
     constructor(private readonly natsClient: NatsClientService) {}
+
+    @Mutation(() => AuthPayload)
+    async register(@Args('input') input: RegisterInput): Promise<AuthPayload>  {
+        return this.natsClient.send('user.register', input).toPromise();
+    }
+
+    @Mutation(() => AuthPayload)
+    async login(@Args('input') input: LoginInput): Promise<AuthPayload> {
+        return this.natsClient.send('user.login', input).toPromise();
+    }
 
     @Query(() => [UserModel])
     async users(): Promise<UserModel[]> {

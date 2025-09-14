@@ -1,12 +1,17 @@
-import {Injectable, Logger} from '@nestjs/common';
+import {Injectable, Logger, UnauthorizedException} from '@nestjs/common';
 import {UserUpdate} from "./dto/user.update";
 import {User} from "./entities/users.entity";
 import {UserCreate} from "./dto/user.create";
 import {UserRepository} from "./user.repository";
 import {EnsureRequestContext, EntityManager} from "@mikro-orm/postgresql";
 import {RpcException} from "@nestjs/microservices";
-import {hash} from 'bcrypt';
+import {compare, hash} from 'bcrypt';
 import {UserRole} from "./entities/user.role";
+import {JwtService} from "@nestjs/jwt";
+import {RegisterInput} from "./dto/register.input";
+import {LoginInput} from "./dto/login.input";
+import {AuthPayload} from "../../bff/src/model/auth.payload";
+import {UserModel} from "../../bff/src/model/user.model";
 
 @Injectable()
 export class UserService {
@@ -15,7 +20,74 @@ export class UserService {
   constructor(
       private readonly userRepository: UserRepository,
       private readonly em: EntityManager,
+      private readonly jwtService: JwtService,
   ) {}
+
+  @EnsureRequestContext()
+  async register(registerInput: RegisterInput): Promise<any> {
+    const { email, password } = registerInput;
+
+    const existingUser = await this.em.findOne(User, { email });
+    if (existingUser) {
+      throw new Error('User already exists');
+    }
+
+    const hashedPassword = await hash(password, 10);
+    const user = this.em.create(User, {
+      email,
+      passwordHash: hashedPassword,
+      role: UserRole.USER,
+    });
+
+    await this.em.persistAndFlush(user);
+
+    const token = this.generateToken(user);
+    return { token, user };
+  }
+
+  @EnsureRequestContext()
+  async login(loginInput: LoginInput): Promise<AuthPayload> {
+    this.logger.log(`Try to login as user with email=${loginInput.email}`);
+    const { email, password } = loginInput;
+
+    const user: User | null = await this.em.findOne(User, { email });
+    if (!user || !(await compare(password, user.passwordHash))) {
+      this.logger.log(`Throw UnauthorizedException`);
+      throw new UnauthorizedException('Invalid credentials');
+    }
+
+    const userModel: UserModel = {
+      id: user.id,
+      email: user.email,
+      role: user.role,
+      created_at: user.created_at
+    };
+
+    const token = await this.generateToken(user);
+    this.logger.log(`Generate Token for user with email=${user.email}`);
+
+    return {
+      token: token,
+      user: userModel,
+    };
+  }
+
+  @EnsureRequestContext()
+  private async generateToken(user: User): Promise<string> {
+    const payload = {
+      sub: user.id,
+      email: user.email,
+      role: user.role
+    };
+    this.logger.log(`Token is generated`);
+
+    return this.jwtService.sign(payload);
+  }
+
+  @EnsureRequestContext()
+  async validateUser(payload: any): Promise<User | null> {
+    return await this.em.findOne(User, { id: payload.sub });
+  }
 
   @EnsureRequestContext()
   async findAll(): Promise<User[]> {
@@ -29,6 +101,7 @@ export class UserService {
     return await this.userRepository.findOne({id});
   }
 
+  //deprecated
   @EnsureRequestContext()
   async create(userData: UserCreate): Promise<User> {
     this.logger.log(`Creating user with email=${userData.email}`);
