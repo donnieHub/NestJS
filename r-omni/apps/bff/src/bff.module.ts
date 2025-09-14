@@ -8,9 +8,13 @@ import {NatsClientService} from "./nats-client.service";
 import {ConfigModule} from "@nestjs/config";
 import {DateTimeScalar} from "./model/date.time.scalar";
 import {BookingResolver} from "./booking.resolver";
+import {UserModule} from "../../user/src/user.module";
+import {APP_GUARD} from "@nestjs/core";
+import {JwtAuthGuard} from "../../user/src/guards/jwt-auth.guard";
 
 @Module({
   imports: [
+    UserModule, // нужен как AuthModule
     ConfigModule.forRoot(),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
@@ -29,6 +33,15 @@ import {BookingResolver} from "./booking.resolver";
     ]),
   ],
   controllers: [],
-  providers: [UserResolver, BookingResolver, NatsClientService, DateTimeScalar],
+  providers: [
+    UserResolver,
+    BookingResolver,
+    NatsClientService,
+    DateTimeScalar,
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+  ],
 })
 export class BffModule {}

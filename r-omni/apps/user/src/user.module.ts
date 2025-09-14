@@ -14,6 +14,7 @@ import {JwtStrategy} from "./strategies/jwt.strategy";
         MikroOrmModule.forRoot(config),
         MikroOrmModule.forFeature({ entities: [User] }),
         JwtModule.register({
+            global: true,
             secret: process.env.JWT_SECRET,
             signOptions: { expiresIn: '24h' },
         }),

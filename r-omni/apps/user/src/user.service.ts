@@ -1,4 +1,4 @@
-import {Injectable, Logger, UnauthorizedException} from '@nestjs/common';
+import {Injectable, Logger} from '@nestjs/common';
 import {UserUpdate} from "./dto/user.update";
 import {User} from "./entities/users.entity";
 import {UserCreate} from "./dto/user.create";
@@ -53,7 +53,12 @@ export class UserService {
     const user: User | null = await this.em.findOne(User, { email });
     if (!user || !(await compare(password, user.passwordHash))) {
       this.logger.log(`Throw UnauthorizedException`);
-      throw new UnauthorizedException('Invalid credentials');
+      throw new RpcException(
+          {
+            status: 401,
+            message: 'Invalid credentials'
+          }
+      );
     }
 
     const userModel: UserModel = {
@@ -64,7 +69,7 @@ export class UserService {
     };
 
     const token = await this.generateToken(user);
-    this.logger.log(`Generate Token for user with email=${user.email}`);
+    this.logger.log(`Token was generated for user with email=${user.email}`);
 
     return {
       token: token,
@@ -79,7 +84,6 @@ export class UserService {
       email: user.email,
       role: user.role
     };
-    this.logger.log(`Token is generated`);
 
     return this.jwtService.sign(payload);
   }
