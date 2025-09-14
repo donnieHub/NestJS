@@ -8,6 +8,7 @@ import {AuthPayload} from "./model/auth.payload";
 import {RegisterInput} from "../../user/src/dto/register.input";
 import {LoginInput} from "../../user/src/dto/login.input";
 import {firstValueFrom} from "rxjs";
+import {Public} from "../../user/src/decorators/public.decorator";
 
 @Resolver(() => UserModel)
 export class UserResolver {
@@ -21,6 +22,7 @@ export class UserResolver {
         return firstValueFrom(this.natsClient.send('user.register', input));
     }
 
+    @Public()
     @Mutation(() => AuthPayload)
     async login(@Args('input') input: LoginInput): Promise<AuthPayload> {
         this.logger.log(`GraphQL mutation: login user with email=${input.email}`);
