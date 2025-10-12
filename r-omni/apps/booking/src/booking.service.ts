@@ -4,16 +4,27 @@ import {BookingRepository} from "./booking.repository";
 import {Booking} from "./entities/booking.entity";
 import {BookingInput} from "./dto/booking.input";
 import {BookingStatus} from "./entities/booking.status";
+import {Roles} from "../../user/src/decorators/roles.decorator";
+import {UserRole} from "../../user/src/entities/user.role";
+import {ClientProxy, ClientProxyFactory, RpcException, Transport} from "@nestjs/microservices";
+import {User} from "../../user/src/entities/users.entity";
 
 @Injectable()
 export class BookingService {
   private readonly logger = new Logger(BookingService.name);
+  private natsClient: ClientProxy;
 
   constructor(
       private readonly bookingRepository: BookingRepository,
       private readonly em: EntityManager,
-  ) {}
+  ) {
+    this.natsClient = ClientProxyFactory.create({
+      transport: Transport.NATS,
+      options: { servers: ['nats://localhost:4222'] },
+    });
+  }
 
+  @Roles(UserRole.ADMIN)
   @EnsureRequestContext()
   async findAll(): Promise<Booking[]> {
     this.logger.log('Fetching all bookings');
@@ -22,10 +33,24 @@ export class BookingService {
 
   @EnsureRequestContext()
   async create(bookingData: BookingInput): Promise<Booking> {
-    this.logger.log(`Checking room with room_id=${bookingData.room_id} free`);
+    this.logger.log(`Try to create booking with id=${bookingData.user_id}`);
     //check user exist and have enough rights
-    //const rooms = await this.roomsService.rooms(dateRangeInput));
-    //if (room_id exists in rooms) {
+    const user: User | null = await this.natsClient.send('user.validate', { sub: bookingData.user_id }).toPromise();
+    if (!user) {
+      this.logger.warn(`User with id ${bookingData.user_id} not found`);
+
+      throw new RpcException(
+          {
+            status: 404,
+            message: 'User not found'
+          }
+      );
+    }
+
+    this.logger.log(`Checking room with room_id=${bookingData.room_id} free`);
+    const rooms = await this.natsClient.send('user.validate', { sub: bookingData.user_id }).toPromise();
+    // if (room_id exists in rooms) {
+
     this.logger.log(`Creating booking with room_id=${bookingData.room_id}`);
 
     const booking = this.bookingRepository.create({

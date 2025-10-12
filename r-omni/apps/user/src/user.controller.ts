@@ -26,6 +26,12 @@ export class UserController {
     return this.usersService.register(registerInput);
   }
 
+  @MessagePattern('user.validate')
+  validate(@Payload() id: string): Promise<User | null> {
+    this.logger.log('Received request: user.validate');
+    return this.usersService.validateUser(id);
+  }
+
   @MessagePattern('user.findAll')
   findAll(): Promise<User[]> {
     this.logger.log('Received request: user.findAll');

@@ -90,6 +90,7 @@ export class UserService {
 
   @EnsureRequestContext()
   async validateUser(payload: any): Promise<User | null> {
+    this.logger.log(`Validate user by id=${payload.sub}`);
     return await this.em.findOne(User, { id: payload.sub });
   }
 
@@ -105,7 +106,6 @@ export class UserService {
     return await this.userRepository.findOne({id});
   }
 
-  //deprecated
   @EnsureRequestContext()
   async create(userData: UserCreate): Promise<User> {
     this.logger.log(`Creating user with email=${userData.email}`);
