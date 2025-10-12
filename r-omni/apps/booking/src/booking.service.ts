@@ -6,8 +6,7 @@ import {BookingInput} from "./dto/booking.input";
 import {BookingStatus} from "./entities/booking.status";
 import {Roles} from "../../user/src/decorators/roles.decorator";
 import {UserRole} from "../../user/src/entities/user.role";
-import {ClientProxy, ClientProxyFactory, RpcException, Transport} from "@nestjs/microservices";
-import {User} from "../../user/src/entities/users.entity";
+import {ClientProxy, ClientProxyFactory, Transport} from "@nestjs/microservices";
 
 @Injectable()
 export class BookingService {
@@ -32,24 +31,20 @@ export class BookingService {
   }
 
   @EnsureRequestContext()
-  async create(bookingData: BookingInput): Promise<Booking> {
-    this.logger.log(`Try to create booking with id=${bookingData.user_id}`);
-    //check user exist and have enough rights
-    const user: User | null = await this.natsClient.send('user.validate', { sub: bookingData.user_id }).toPromise();
-    if (!user) {
-      this.logger.warn(`User with id ${bookingData.user_id} not found`);
-
-      throw new RpcException(
-          {
-            status: 404,
-            message: 'User not found'
-          }
-      );
-    }
+  async create(bookingData: BookingInput & { user: any }): Promise<Booking> {
+    this.logger.log(`Try to create booking for user with id=${bookingData.user_id}`);
+    this.logger.log(`Try to create booking for user with email=${bookingData.user.email}`);
 
     this.logger.log(`Checking room with room_id=${bookingData.room_id} free`);
-    const rooms = await this.natsClient.send('user.validate', { sub: bookingData.user_id }).toPromise();
-    // if (room_id exists in rooms) {
+    // const room = await firstValueFrom(this.natsClient.send('room.findOne', bookingData.room_id );
+    // if (!room) {
+    // throw new RpcException(
+        //       {
+        //         status: 404,
+        //         message: 'Room not found'
+        //       }
+        //   );
+    //}
 
     this.logger.log(`Creating booking with room_id=${bookingData.room_id}`);
 

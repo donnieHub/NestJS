@@ -1,8 +1,9 @@
-import {Controller, Logger} from '@nestjs/common';
+import {Controller, Logger, UseInterceptors} from '@nestjs/common';
 import { BookingService } from './booking.service';
 import {MessagePattern, Payload} from "@nestjs/microservices";
 import {Booking} from "./entities/booking.entity";
 import {BookingInput} from "./dto/booking.input";
+import {UserAttachInterceptor} from "./intercepters/UserAttachInterceptor";
 
 @Controller()
 export class BookingController {
@@ -16,8 +17,9 @@ export class BookingController {
     return this.bookingService.findAll();
   }
 
+  @UseInterceptors(UserAttachInterceptor)
   @MessagePattern('booking.create')
-  create(@Payload() booking: BookingInput): Promise<Booking> {
+  create(@Payload() booking: BookingInput & { user: any }): Promise<Booking> {
     this.logger.log(`Received request: booking.create with data=${JSON.stringify(booking)}`);
     return this.bookingService.create(booking);
   }
