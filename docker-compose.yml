@@ -4,7 +4,7 @@ services:
       context: r-omni
       dockerfile: apps/r-omni/Dockerfile
     container_name: nestjs_app
-    restart: always
+    restart: unless-stopped
     ports:
       - '3002:3002'
     environment:
@@ -21,13 +21,13 @@ services:
       context: r-omni
       dockerfile: apps/user/Dockerfile
     container_name: user
-    restart: always
+    restart: unless-stopped
     environment:
       - NODE_ENV=development
       - NATS_URL=nats://nats-server:4222
       - DB_NAME=auth_service_db
       - DB_HOST=auth_service_db
-      - DB_PORT=5434
+      - DB_PORT=5432
       - DB_USER=postgres
       - DB_PASSWORD=postgres
     depends_on:
@@ -58,6 +58,29 @@ services:
     networks:
       - nats-network
 
+  booking:
+    build:
+      context: r-omni
+      dockerfile: apps/booking/Dockerfile
+    container_name: booking
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=development
+      - NATS_URL=nats://nats-server:4222
+      - DB_NAME=booking_service_db
+      - DB_HOST=booking_service_db
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+    depends_on:
+      nats-server:
+        condition: service_started
+      auth_service_db:
+        condition: service_healthy
+    command: sh -c "yarn migration:booking:up && yarn start:dev booking"
+    networks:
+      - nats-network
+
   booking_service_db:
     image: postgres:17.5
     restart: unless-stopped
@@ -69,6 +92,48 @@ services:
       - '54321:5432'
     volumes:
       - booking_service_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - nats-network
+
+  room:
+    build:
+      context: r-omni
+      dockerfile: apps/rooms/Dockerfile
+    container_name: room
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=development
+      - NATS_URL=nats://nats-server:4222
+      - DB_NAME=room
+      - DB_HOST=room_service_db
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+    depends_on:
+      nats-server:
+        condition: service_started
+      auth_service_db:
+        condition: service_healthy
+    command: sh -c "yarn migration:room:up && yarn start:dev room"
+    networks:
+      - nats-network
+
+  room_service_db:
+    image: postgres:17.5
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=room_service_db
+    ports:
+      - '54322:5432'
+    volumes:
+      - room_service_data:/var/lib/postgresql/data
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       interval: 5s
@@ -95,3 +160,4 @@ networks:
 volumes:
   auth_service_data:
   booking_service_data:
+  room_service_data:
