@@ -3,7 +3,7 @@ import {v4} from "uuid";
 import {RoomRepository} from "../room.repository";
 import {Room} from "./rooms.entity";
 
-@Entity({ tableName: 'rooms', repository: () => RoomRepository })
+@Entity({ tableName: 'room_availability', repository: () => RoomRepository })
 export class RoomAvailability {
 
     [EntityRepositoryType]?: RoomRepository;
@@ -11,8 +11,8 @@ export class RoomAvailability {
     @PrimaryKey({ type: 'uuid' })
     id: string = v4();
 
-    @OneToOne({ type: 'uuid' })
-    room_id: Room;
+    @OneToOne(() => Room, { fieldName: 'room_id', owner: true })
+    room: Room;
 
     @Property({ type: 'datetime' })
     date_from: Date;

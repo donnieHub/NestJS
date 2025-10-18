@@ -3,12 +3,13 @@ import {PostgreSqlDriver} from "@mikro-orm/postgresql";
 import * as path from "node:path";
 import * as dotenv from 'dotenv';
 import {Room} from "./src/entities/rooms.entity";
+import {RoomAvailability} from "./src/entities/room.availability.entity";
 
 dotenv.config();
 
 export const config: Options<PostgreSqlDriver> = {
-    entities: [Room],
-    entitiesTs: [Room],
+    entities: [Room, RoomAvailability],
+    entitiesTs: [Room, RoomAvailability],
     dbName: process.env.DB_NAME || 'room_service_db',
     host: process.env.DB_HOST || 'localhost',
     port: parseInt(process.env.ROOM_DB_PORT || '54322', 10),
