@@ -23,7 +23,10 @@
     "migration:users:down": "node -r dotenv/config ./node_modules/.bin/mikro-orm migration:down --config=apps/user/mikro-orm.config.ts",
     "migration:booking:create": "node -r dotenv/config ./node_modules/.bin/mikro-orm migration:create --config=apps/booking/mikro-orm.config.ts",
     "migration:booking:up": "node -r dotenv/config ./node_modules/.bin/mikro-orm migration:up --config=apps/booking/mikro-orm.config.ts",
-    "migration:booking:down": "node -r dotenv/config ./node_modules/.bin/mikro-orm migration:down --config=apps/booking/mikro-orm.config.ts"
+    "migration:booking:down": "node -r dotenv/config ./node_modules/.bin/mikro-orm migration:down --config=apps/booking/mikro-orm.config.ts",
+    "migration:room:create": "node -r dotenv/config ./node_modules/.bin/mikro-orm migration:create --config=apps/rooms/mikro-orm.config.ts",
+    "migration:room:up": "node -r dotenv/config ./node_modules/.bin/mikro-orm migration:up --config=apps/rooms/mikro-orm.config.ts",
+    "migration:room:down": "node -r dotenv/config ./node_modules/.bin/mikro-orm migration:down --config=apps/rooms/mikro-orm.config.ts"
   },
   "dependencies": {
     "@apollo/server": "^4.12.2",
