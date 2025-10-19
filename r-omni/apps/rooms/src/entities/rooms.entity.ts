@@ -24,7 +24,7 @@ export class Room {
     @Property({ type: 'boolean' })
     is_available: boolean;
 
-    @ManyToOne(() => Building)
+    @ManyToOne(() => Building, { deleteRule: 'cascade' })
     building: Building;
 
     constructor(type: RoomType, building: Building, price: number, description: string, is_available: boolean) {

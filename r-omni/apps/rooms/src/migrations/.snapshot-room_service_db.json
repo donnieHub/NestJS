@@ -154,6 +154,7 @@
             "id"
           ],
           "referencedTableName": "public.building",
+          "deleteRule": "cascade",
           "updateRule": "cascade"
         }
       },
