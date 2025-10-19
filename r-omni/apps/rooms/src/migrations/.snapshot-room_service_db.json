@@ -15,6 +15,65 @@
           "nullable": false,
           "mappedType": "uuid"
         },
+        "name": {
+          "name": "name",
+          "type": "varchar(100)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 100,
+          "mappedType": "string"
+        },
+        "address": {
+          "name": "address",
+          "type": "varchar(200)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 200,
+          "mappedType": "string"
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "text"
+        }
+      },
+      "name": "building",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "building_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {},
+      "nativeEnums": {}
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        },
         "type": {
           "name": "type",
           "type": "text",
@@ -58,6 +117,15 @@
           "primary": false,
           "nullable": false,
           "mappedType": "boolean"
+        },
+        "building_id": {
+          "name": "building_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
         }
       },
       "name": "rooms",
@@ -75,7 +143,20 @@
         }
       ],
       "checks": [],
-      "foreignKeys": {},
+      "foreignKeys": {
+        "rooms_building_id_foreign": {
+          "constraintName": "rooms_building_id_foreign",
+          "columnNames": [
+            "building_id"
+          ],
+          "localTableName": "public.rooms",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.building",
+          "updateRule": "cascade"
+        }
+      },
       "nativeEnums": {}
     },
     {
