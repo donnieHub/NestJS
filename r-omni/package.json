@@ -26,7 +26,10 @@
     "migration:booking:down": "node -r dotenv/config ./node_modules/.bin/mikro-orm migration:down --config=apps/booking/mikro-orm.config.ts",
     "migration:room:create": "node -r dotenv/config ./node_modules/.bin/mikro-orm migration:create --config=apps/rooms/mikro-orm.config.ts",
     "migration:room:up": "node -r dotenv/config ./node_modules/.bin/mikro-orm migration:up --config=apps/rooms/mikro-orm.config.ts",
-    "migration:room:down": "node -r dotenv/config ./node_modules/.bin/mikro-orm migration:down --config=apps/rooms/mikro-orm.config.ts"
+    "migration:room:down": "node -r dotenv/config ./node_modules/.bin/mikro-orm migration:down --config=apps/rooms/mikro-orm.config.ts",
+    "seed:buildings": "npx mikro-orm seeder:run --class BuildingSeeder --config=apps/rooms/mikro-orm.config.ts",
+    "seed:room": "npx mikro-orm seeder:run --class RoomSeeder --config=apps/rooms/mikro-orm.config.ts",
+    "seed:all": "npx mikro-orm seeder:run --class DatabaseSeeder --config=apps/rooms/mikro-orm.config.ts"
   },
   "dependencies": {
     "@apollo/server": "^4.12.2",
@@ -34,6 +37,7 @@
     "@mikro-orm/migrations": "^6.4.16",
     "@mikro-orm/nestjs": "^6.1.1",
     "@mikro-orm/postgresql": "^6.4.16",
+    "@mikro-orm/seeder": "^6.4.16",
     "@nestjs/apollo": "^13.1.0",
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.2",

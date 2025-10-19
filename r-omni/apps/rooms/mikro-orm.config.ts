@@ -20,6 +20,11 @@ export const config: Options<PostgreSqlDriver> = {
         path: path.resolve(__dirname, './src/migrations'),
         pathTs: path.resolve(__dirname, './src/migrations'),
     },
+    seeder: {
+        path: path.resolve(__dirname, './src/seeders'),
+        pathTs: path.resolve(__dirname, './src/seeders'),
+        defaultSeeder: 'DatabaseSeeder',
+    },
     debug: process.env.DB_DEBUG === 'true' || true,
 };
 

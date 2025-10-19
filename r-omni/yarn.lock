@@ -1159,6 +1159,14 @@
     postgres-date "2.1.0"
     postgres-interval "4.0.2"
 
+"@mikro-orm/seeder@^6.4.16":
+  version "6.4.16"
+  resolved "https://registry.npmjs.org/@mikro-orm/seeder/-/seeder-6.4.16.tgz"
+  integrity sha512-5wE8gvZZYhD7N9eGsgGfK+/oe74mCgixZaE4ClSo7xUSL6fJTpzctAU6sr4NTHo3QclNTxtiI5syJD2VByWQhg==
+  dependencies:
+    fs-extra "11.3.0"
+    globby "11.1.0"
+
 "@napi-rs/nice-darwin-arm64@1.0.1":
   version "1.0.1"
   resolved "https://registry.npmjs.org/@napi-rs/nice-darwin-arm64/-/nice-darwin-arm64-1.0.1.tgz"
