@@ -11,6 +11,7 @@ import {BookingResolver} from "./booking.resolver";
 import {UserModule} from "../../user/src/user.module";
 import {APP_GUARD} from "@nestjs/core";
 import {JwtAuthGuard} from "../../user/src/guards/jwt-auth.guard";
+import {RoomResolver} from "./room.resolver";
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import {JwtAuthGuard} from "../../user/src/guards/jwt-auth.guard";
   controllers: [],
   providers: [
     UserResolver,
+    RoomResolver,
     BookingResolver,
     NatsClientService,
     DateTimeScalar,
