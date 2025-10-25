@@ -1,4 +1,4 @@
-import {IsBoolean, IsDecimal, IsIn, IsNotEmpty, IsString, Min} from "class-validator";
+import {IsBoolean, IsDecimal, IsIn, IsNotEmpty, IsString, IsUUID, Min} from "class-validator";
 import {Field, InputType} from "@nestjs/graphql";
 import {RoomType} from "../entities/room.type";
 import {BookingStatus} from "../../../booking/src/entities/booking.status";
@@ -25,4 +25,8 @@ export class RoomCreate {
     @IsBoolean()
     @Field()
     is_available: boolean;
+
+    @IsUUID()
+    @Field()
+    building: string;
 }

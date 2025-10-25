@@ -36,6 +36,7 @@ export class RoomsService {
       price: roomData.price,
       description: roomData.description,
       is_available: roomData.is_available,
+      building: roomData.building,
     });
 
     await this.em.persistAndFlush(room);
