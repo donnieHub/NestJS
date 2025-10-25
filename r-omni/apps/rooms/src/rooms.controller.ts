@@ -2,14 +2,19 @@ import {Controller, Logger} from '@nestjs/common';
 import { RoomsService } from './rooms.service';
 import {MessagePattern, Payload} from "@nestjs/microservices";
 import {Room} from "./entities/rooms.entity";
-import {RoomCreate} from "./dto/room.create";
-import {RoomUpdate} from "./dto/room.update";
+import {CommandBus, QueryBus} from "@nestjs/cqrs";
+import {GetRoomByIdQuery} from "./queries/get.room.by.id.query";
+import {BookRoomCommand} from "./commands/book.room.command";
 
 @Controller()
 export class RoomsController {
   private readonly logger = new Logger(RoomsController.name);
 
-  constructor(private readonly roomService: RoomsService) {}
+  constructor(
+      private readonly roomService: RoomsService,
+      private readonly commandBus: CommandBus,
+      private readonly queryBus: QueryBus,
+  ) {}
 
   @MessagePattern('room.findAll')
   findAll(): Promise<Room[]> {
@@ -20,24 +25,12 @@ export class RoomsController {
   @MessagePattern('room.findOne')
   findOne(@Payload() id: string): Promise<Room | null> {
     this.logger.log(`Received request: room.findOne with id=${id}`);
-    return this.roomService.findOne(id);
+    return this.queryBus.execute(new GetRoomByIdQuery(id));
   }
 
-  @MessagePattern('room.create')
-  create(@Payload() room: RoomCreate): Promise<Room> {
-    this.logger.log(`Received request: room.create with data=${JSON.stringify(room)}`);
-    return this.roomService.create(room);
-  }
-
-  @MessagePattern('room.update')
-  update(@Payload() room: RoomUpdate): Promise<Room | null> {
-    this.logger.log(`Received request: room.update with data=${JSON.stringify(room)}`);
-    return this.roomService.update(room);
-  }
-
-  @MessagePattern('room.remove')
-  remove(@Payload() id: string): Promise<Room | null> {
-    this.logger.log(`Received request: room.remove with id=${id}`);
-    return this.roomService.remove(id);
+  @MessagePattern('room.book')
+  bookRoom(@Payload() id: string, is_available: boolean, from: Date, to: Date): Promise<Room | null> {
+    this.logger.log(`Received request: room.book with id=${id}`);
+    return this.commandBus.execute(new BookRoomCommand(id, is_available, from, to));
   }
 }

@@ -1,14 +1,13 @@
 import {IsBoolean, IsDecimal, IsIn, IsNotEmpty, IsString, IsUUID, Min} from "class-validator";
 import {Field, InputType} from "@nestjs/graphql";
 import {RoomType} from "../entities/room.type";
-import {BookingStatus} from "../../../booking/src/entities/booking.status";
 
 @InputType()
 export class RoomCreate {
 
     @IsString()
     @IsNotEmpty({ message: 'Room type cannot be empty!' })
-    @IsIn(Object.values(BookingStatus), { message: 'type must be one of: standard, economy' })
+    @IsIn(Object.values(RoomType), { message: 'type must be one of: standard, economy' })
     @Field()
     type: RoomType;
 
