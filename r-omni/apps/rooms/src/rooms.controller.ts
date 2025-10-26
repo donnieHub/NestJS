@@ -5,6 +5,7 @@ import {Room} from "./entities/rooms.entity";
 import {CommandBus, QueryBus} from "@nestjs/cqrs";
 import {GetRoomByIdQuery} from "./queries/get.room.by.id.query";
 import {BookRoomCommand} from "./commands/book.room.command";
+import {GetRoomsQuery} from "./queries/get.rooms.query";
 
 @Controller()
 export class RoomsController {
@@ -19,7 +20,7 @@ export class RoomsController {
   @MessagePattern('room.findAll')
   findAll(): Promise<Room[]> {
     this.logger.log('Received request: room.findAll');
-    return this.roomService.findAll();
+    return this.queryBus.execute(new GetRoomsQuery())
   }
 
   @MessagePattern('room.findOne')

@@ -1,12 +1,11 @@
-import {Entity, EntityRepositoryType, OneToOne, PrimaryKey, Property} from '@mikro-orm/core';
+import {Entity, OneToOne, PrimaryKey, Property} from '@mikro-orm/core';
 import {v4} from "uuid";
-import {RoomRepository} from "../room.repository";
 import {Room} from "./rooms.entity";
 
-@Entity({ tableName: 'room_availability', repository: () => RoomRepository })
+@Entity({
+    tableName: 'room_availability',
+})
 export class RoomAvailability {
-
-    [EntityRepositoryType]?: RoomRepository;
 
     @PrimaryKey({ type: 'uuid' })
     id: string = v4();

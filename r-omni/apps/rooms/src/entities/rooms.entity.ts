@@ -4,7 +4,10 @@ import {RoomRepository} from "../room.repository";
 import {RoomType} from "./room.type";
 import {Building} from "./building.entity";
 
-@Entity({ tableName: 'rooms', repository: () => RoomRepository })
+@Entity({
+    tableName: 'rooms',
+    repository: () => RoomRepository
+})
 export class Room {
 
     [EntityRepositoryType]?: RoomRepository;

@@ -17,4 +17,10 @@ export class RoomModel {
 
     @Field()
     is_available: boolean;
+
+    @Field()
+    buildingName: string;
+
+    @Field()
+    buildingAddress: string;
 }

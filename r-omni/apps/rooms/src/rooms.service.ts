@@ -16,18 +16,6 @@ export class RoomsService {
   ) {}
 
   @EnsureRequestContext()
-  async findAll(): Promise<Room[]> {
-    this.logger.log('Fetching all rooms');
-    return this.roomRepository.findAll();
-  }
-
-  @EnsureRequestContext()
-  async findOne(id: string): Promise<Room | null> {
-    this.logger.log(`Fetching room by id=${id}`);
-    return await this.roomRepository.findOne({id});
-  }
-
-  @EnsureRequestContext()
   async create(roomData: RoomCreate): Promise<Room> {
     this.logger.log(`Creating room with description=${roomData.description}`);
 
