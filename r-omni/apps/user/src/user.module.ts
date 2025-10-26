@@ -16,7 +16,7 @@ import {JwtStrategy} from "./strategies/jwt.strategy";
         JwtModule.register({
             global: true,
             secret: process.env.JWT_SECRET,
-            signOptions: { expiresIn: '24h' },
+            signOptions: { expiresIn: '924h' },
         }),
     ],
     controllers: [UserController],
