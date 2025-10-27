@@ -13,14 +13,14 @@ export class RoomModel {
     price: number;
 
     @Field()
-    description: string;
+    description?: string;
 
     @Field()
     is_available: boolean;
 
-    @Field()
-    buildingName: string;
+    @Field({ nullable: true })
+    buildingName?: string;
 
-    @Field()
-    buildingAddress: string;
+    @Field({ nullable: true })
+    buildingAddress?: string;
 }

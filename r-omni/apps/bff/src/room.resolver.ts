@@ -3,6 +3,7 @@ import {NatsClientService} from "./nats-client.service";
 import {Logger, ParseUUIDPipe} from "@nestjs/common";
 import {firstValueFrom} from "rxjs";
 import {RoomModel} from "./model/room.model";
+import {FindAvailableRoomsInput} from "../../rooms/src/dto/find.available.rooms.input";
 
 @Resolver(() => RoomModel)
 export class RoomResolver {
@@ -20,5 +21,11 @@ export class RoomResolver {
     async room(@Args('id', { type: () => ID }, ParseUUIDPipe ) id: string): Promise<RoomModel | null> {
         this.logger.log(`GraphQL query: room with id=${id}`);
         return firstValueFrom(this.natsClient.send('room.findOne', id));
+    }
+
+    @Query(() => RoomModel, { nullable: true })
+    async availableRooms(@Args('query') query: FindAvailableRoomsInput): Promise<RoomModel[]> {
+        this.logger.log(`GraphQL query: get room from ${query.startDate} to ${query.endDate}`);
+        return firstValueFrom(this.natsClient.send('room.availableRooms', query));
     }
 }

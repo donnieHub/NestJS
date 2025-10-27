@@ -6,6 +6,7 @@ import {CommandBus, QueryBus} from "@nestjs/cqrs";
 import {GetRoomByIdQuery} from "./queries/get.room.by.id.query";
 import {BookRoomCommand} from "./commands/book.room.command";
 import {GetRoomsQuery} from "./queries/get.rooms.query";
+import {FindAvailableRoomsQuery} from "./queries/find.available.rooms.query";
 
 @Controller()
 export class RoomsController {
@@ -27,6 +28,12 @@ export class RoomsController {
   findOne(@Payload() id: string): Promise<Room | null> {
     this.logger.log(`Received request: room.findOne with id=${id}`);
     return this.queryBus.execute(new GetRoomByIdQuery(id));
+  }
+
+  @MessagePattern('room.availableRooms')
+  availableRooms(@Payload() query: FindAvailableRoomsQuery): Promise<Room[]> {
+    this.logger.log(`Received request: room.availableRooms get room from ${query.startDate} to ${query.endDate}`);
+    return this.queryBus.execute(new FindAvailableRoomsQuery(query.startDate, query.endDate, query.buildingId));
   }
 
   @MessagePattern('room.book')

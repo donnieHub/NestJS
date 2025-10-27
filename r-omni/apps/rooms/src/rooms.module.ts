@@ -11,6 +11,7 @@ import {GetRoomByIdHandler} from "./handlers/get.room.by.id.handler";
 import {RoomReadRepository} from "./room.read.repository";
 import {CqrsModule} from "@nestjs/cqrs";
 import {GetRoomsHandler} from "./handlers/get.rooms.handler";
+import {GetAvailableRoomsHandler} from "./handlers/get.available.rooms.handler";
 
 @Module({
   imports: [
@@ -20,6 +21,6 @@ import {GetRoomsHandler} from "./handlers/get.rooms.handler";
     MikroOrmModule.forFeature({ entities: [Room, RoomAvailability] }),
   ],
   controllers: [RoomsController],
-  providers: [RoomsService, BookRoomHandler, GetRoomByIdHandler, GetRoomsHandler, RoomReadRepository],
+  providers: [RoomsService, BookRoomHandler, GetRoomByIdHandler, GetRoomsHandler, RoomReadRepository, GetAvailableRoomsHandler],
 })
 export class RoomsModule {}
