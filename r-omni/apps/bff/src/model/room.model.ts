@@ -12,7 +12,7 @@ export class RoomModel {
     @Field()
     price: number;
 
-    @Field()
+    @Field({ nullable: true })
     description?: string;
 
     @Field()

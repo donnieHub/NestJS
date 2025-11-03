@@ -1,4 +1,4 @@
-export class FindAvailableRoomsQuery {
+export class GetAvailableRoomsQuery {
     constructor(
         public readonly startDate: Date,
         public readonly endDate: Date,

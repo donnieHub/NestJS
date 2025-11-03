@@ -2,7 +2,7 @@ import {GetRoomByIdQuery} from "../queries/get.room.by.id.query";
 import {IQueryHandler, QueryHandler} from "@nestjs/cqrs";
 import {RoomReadRepository} from "../room.read.repository";
 import {Logger} from "@nestjs/common";
-import {RoomReadModel} from "../models/room.read.model";
+import {AvailableRoomDto} from "../dto/available.room.dto";
 
 @QueryHandler(GetRoomByIdQuery)
 export class GetRoomByIdHandler implements IQueryHandler<GetRoomByIdQuery> {
@@ -10,7 +10,7 @@ export class GetRoomByIdHandler implements IQueryHandler<GetRoomByIdQuery> {
 
     constructor(private readonly roomReadRepository: RoomReadRepository) {}
 
-    async execute(query: GetRoomByIdQuery): Promise<RoomReadModel | null> {
+    async execute(query: GetRoomByIdQuery): Promise<AvailableRoomDto | null> {
         const { roomId } = query;
 
         this.logger.log(`GetRoomByIdHandler: get room by id=${roomId}`);
