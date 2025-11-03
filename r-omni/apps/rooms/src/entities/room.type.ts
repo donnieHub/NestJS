@@ -7,5 +7,5 @@ export enum RoomType {
 
 registerEnumType(RoomType, {
     name: 'RoomType',
-    description: 'Booking status',
+    description: 'Room type',
 });
