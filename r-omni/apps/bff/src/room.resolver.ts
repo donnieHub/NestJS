@@ -23,7 +23,7 @@ export class RoomResolver {
         return firstValueFrom(this.natsClient.send('room.findOne', id));
     }
 
-    @Query(() => RoomModel, { nullable: true })
+    @Query(() => [RoomModel])
     async availableRooms(@Args('query') query: GetAvailableRoomsInput): Promise<RoomModel[]> {
         this.logger.log(`GraphQL query: get room from ${query.startDate} to ${query.endDate}`);
         return firstValueFrom(this.natsClient.send('room.availableRooms', query));
