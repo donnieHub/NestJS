@@ -23,8 +23,7 @@ export class RoomReadRepository  {
         const { startDate, endDate, buildingId } = params;
 
         const qb = this.em.createQueryBuilder(Room, 'r')
-            .select(['r.*', 'b.*']) // выбираем все поля обеих сущностей
-            .leftJoin('r.building', 'b')
+            .leftJoinAndSelect('r.building', 'b') // Используем joinAndSelect для загрузки отношения
             .where('r.is_available = true')
             .andWhere(`NOT EXISTS (
         SELECT 1 FROM room_availability ra 
