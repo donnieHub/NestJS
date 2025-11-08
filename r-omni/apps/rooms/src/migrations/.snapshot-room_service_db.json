@@ -180,28 +180,18 @@
           "nullable": false,
           "mappedType": "uuid"
         },
-        "date_from": {
-          "name": "date_from",
-          "type": "timestamptz",
+        "date": {
+          "name": "date",
+          "type": "date",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "length": 6,
-          "mappedType": "datetime"
+          "length": 0,
+          "mappedType": "date"
         },
-        "date_to": {
-          "name": "date_to",
-          "type": "timestamptz",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "length": 6,
-          "mappedType": "datetime"
-        },
-        "is_booked": {
-          "name": "is_booked",
+        "is_available": {
+          "name": "is_available",
           "type": "boolean",
           "unsigned": false,
           "autoincrement": false,

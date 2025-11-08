@@ -13,21 +13,19 @@ export class RoomAvailability {
     @ManyToOne(() => Room, { fieldName: 'room_id' })
     room: Room;
 
-    @Property({ type: 'datetime' })
-    date_from: Date;
-
-    @Property({ type: 'datetime' })
-    date_to: Date;
+    @Property({ type: 'date' })
+    date: Date;
 
     @Property({ type: 'boolean' })
-    is_booked: boolean;
+    is_available: boolean;
 
     @Property({ type: 'uuid', nullable: true })
-    booking_id: string; // Для компенсирующих действий
+    booking_id?: string;
 
-    constructor(date_from: Date, date_to: Date, is_booked: boolean) {
-        this.date_from = date_from;
-        this.date_to = date_to;
-        this.is_booked = is_booked;
+    constructor(room: Room, date: Date, is_available: boolean, booking_id?: string) {
+        this.room = room;
+        this.date = date;
+        this.is_available = is_available;
+        this.booking_id = booking_id;
     }
 }
