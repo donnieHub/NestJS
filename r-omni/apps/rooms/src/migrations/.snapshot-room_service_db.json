@@ -208,21 +208,20 @@
           "primary": false,
           "nullable": false,
           "mappedType": "boolean"
+        },
+        "booking_id": {
+          "name": "booking_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "uuid"
         }
       },
       "name": "room_availability",
       "schema": "public",
       "indexes": [
-        {
-          "columnNames": [
-            "room_id"
-          ],
-          "composite": false,
-          "keyName": "room_availability_room_id_unique",
-          "constraint": true,
-          "primary": false,
-          "unique": true
-        },
         {
           "keyName": "room_availability_pkey",
           "columnNames": [

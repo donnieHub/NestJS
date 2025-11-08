@@ -1,4 +1,4 @@
-import {Entity, OneToOne, PrimaryKey, Property} from '@mikro-orm/core';
+import {Entity, ManyToOne, PrimaryKey, Property} from '@mikro-orm/core';
 import {v4} from "uuid";
 import {Room} from "./rooms.entity";
 
@@ -10,7 +10,7 @@ export class RoomAvailability {
     @PrimaryKey({ type: 'uuid' })
     id: string = v4();
 
-    @OneToOne(() => Room, { fieldName: 'room_id', owner: true })
+    @ManyToOne(() => Room, { fieldName: 'room_id' })
     room: Room;
 
     @Property({ type: 'datetime' })
@@ -21,6 +21,9 @@ export class RoomAvailability {
 
     @Property({ type: 'boolean' })
     is_booked: boolean;
+
+    @Property({ type: 'uuid', nullable: true })
+    booking_id: string; // Для компенсирующих действий
 
     constructor(date_from: Date, date_to: Date, is_booked: boolean) {
         this.date_from = date_from;
