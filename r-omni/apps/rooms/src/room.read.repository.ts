@@ -23,18 +23,14 @@ export class RoomReadRepository  {
         const { startDate, endDate, buildingId } = params;
 
         const qb = this.em.createQueryBuilder(Room, 'r')
-            .leftJoinAndSelect('r.building', 'b') // Используем joinAndSelect для загрузки отношения
+            .leftJoinAndSelect('r.building', 'b')
             .where('r.is_available = true')
             .andWhere(`NOT EXISTS (
-        SELECT 1 FROM room_availability ra 
-        WHERE ra.room_id = r.id 
-        AND ra.is_booked = true 
-        AND (
-            (ra.date_from <= ? AND ra.date_to >= ?) OR
-            (ra.date_from <= ? AND ra.date_to >= ?) OR
-            (ra.date_from >= ? AND ra.date_to <= ?)
-        )
-    )`, [endDate, startDate, startDate, endDate, startDate, endDate]);
+            SELECT 1 FROM room_availability ra 
+            WHERE ra.room_id = r.id 
+            AND ra.date BETWEEN ? AND ?
+            AND (ra.is_available = false OR ra.booking_id IS NOT NULL)
+        )`, [startDate, endDate]);
 
         if (buildingId) {
             qb.andWhere('b.id = ?', [buildingId]);
@@ -59,7 +55,7 @@ export class RoomReadRepository  {
             row.id,
             row.type as RoomType,
             row.price,
-            row.description, //не работает проблема в RoomModel в bff
+            row.description,
             row.is_available,
             {
                 id: row.building.id,
