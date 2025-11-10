@@ -9,7 +9,9 @@ import {UserAttachInterceptor} from "./intercepters/UserAttachInterceptor";
 export class BookingController {
   private readonly logger = new Logger(BookingController.name);
 
-  constructor(private readonly bookingService: BookingService) {}
+  constructor(
+      private readonly bookingService: BookingService,
+  ) {}
 
   @MessagePattern('booking.findAll')
   findAll(): Promise<Booking[]> {

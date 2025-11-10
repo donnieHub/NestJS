@@ -7,6 +7,7 @@ import {BookingStatus} from "./entities/booking.status";
 import {Roles} from "../../user/src/decorators/roles.decorator";
 import {UserRole} from "../../user/src/entities/user.role";
 import {ClientProxy, ClientProxyFactory, Transport} from "@nestjs/microservices";
+import {BookingCreatedEvent} from "./events/booking.created.event";
 
 @Injectable()
 export class BookingService {
@@ -36,34 +37,29 @@ export class BookingService {
     this.logger.log(`Try to create booking for user with email=${bookingData.user.email}`);
 
     this.logger.log(`Checking room with room_id=${bookingData.room_id} free`);
-    // const room = await firstValueFrom(this.natsClient.send('room.findOne', bookingData.room_id );
-    // if (!room) {
-    // throw new RpcException(
-        //       {
-        //         status: 404,
-        //         message: 'Room not found'
-        //       }
-        //   );
-    //}
 
-    this.logger.log(`Creating booking with room_id=${bookingData.room_id}`);
-
-    const booking = this.bookingRepository.create({
-      user_id: bookingData.user_id,
-      status: BookingStatus.CONFIRMED,
-      room_id: bookingData.room_id,
-      date_from: bookingData.date_from,
-      date_to: bookingData.date_to,
-    });
+    const booking = new Booking(
+        bookingData.user_id,
+        bookingData.room_id,
+        bookingData.date_from,
+        bookingData.date_to,
+        BookingStatus.PENDING,
+    );
 
     await this.em.persistAndFlush(booking);
 
-    this.logger.log(`Booking created: id=${booking.id}`);
+    // Публикуем событие начала Saga
+    const event = new BookingCreatedEvent(
+        booking.id,
+        booking.user_id,
+        booking.room_id,
+        booking.date_from,
+        booking.date_to,
+    );
 
-    //Обновление статуса номера (Rooms Service)
+    this.natsClient.emit('booking.start', event);
 
     return booking;
-    //else { throw new RpcException({ message: `Room with room_id already booked on these dates` });}
   }
 
   @EnsureRequestContext()

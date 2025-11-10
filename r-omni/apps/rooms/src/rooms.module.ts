@@ -14,6 +14,13 @@ import {GetRoomsHandler} from "./handlers/get.rooms.handler";
 import {GetAvailableRoomsHandler} from "./handlers/get.available.rooms.handler";
 import {Building} from "./entities/building.entity";
 
+const CommandHandlers = [
+    GetRoomByIdHandler,
+    GetRoomsHandler,
+    BookRoomHandler,
+    GetAvailableRoomsHandler,
+];
+
 @Module({
   imports: [
     CqrsModule,
@@ -22,6 +29,6 @@ import {Building} from "./entities/building.entity";
     MikroOrmModule.forFeature({ entities: [Room, RoomAvailability, Building] }),
   ],
   controllers: [RoomsController],
-  providers: [RoomsService, BookRoomHandler, GetRoomByIdHandler, GetRoomsHandler, GetAvailableRoomsHandler, RoomReadRepository],
+  providers: [RoomsService, RoomReadRepository, ...CommandHandlers],
 })
 export class RoomsModule {}

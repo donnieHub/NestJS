@@ -1,10 +1,13 @@
-import {Injectable, Logger} from '@nestjs/common';
+import {ConflictException, Injectable, Logger} from '@nestjs/common';
 import {EnsureRequestContext, EntityManager} from "@mikro-orm/postgresql";
 import {RpcException} from "@nestjs/microservices";
 import {RoomRepository} from "./room.repository";
 import {Room} from "./entities/rooms.entity";
 import {RoomCreate} from "./dto/room.create";
 import {RoomUpdate} from "./dto/room.update";
+import {RoomReadRepository} from "./room.read.repository";
+import {RoomAvailability} from "./entities/room.availability.entity";
+import {RoomReservedEvent} from "./events/room.reserved.event";
 
 @Injectable()
 export class RoomsService {
@@ -12,8 +15,61 @@ export class RoomsService {
 
   constructor(
       private readonly roomRepository: RoomRepository,
+      private readonly roomReadRepository: RoomReadRepository,
       private readonly em: EntityManager,
   ) {}
+
+  @EnsureRequestContext()
+  async reserveRoom(event: RoomReservedEvent): Promise<void> {
+    this.logger.log(`Reserve room with id=${event.roomId}`);
+
+    // 1. Проверяем доступность через существующий метод
+    const availableRooms = await this.roomReadRepository.findAvailableRooms({
+      startDate: event.dateFrom,
+      endDate: event.dateTo,
+    });
+
+    // 2. Если комната не найдена в доступных - бросаем ошибку
+    const isRoomAvailable = availableRooms.some(room => room.id === event.roomId);
+
+    if (!isRoomAvailable) {
+      this.logger.log(`Room ${event.roomId} is not available for the selected dates`);
+      throw new ConflictException(`Room ${event.roomId} is not available for the selected dates`);
+    }
+
+    // 3. Создаем записи о занятости для каждого дня периода
+    await this.createRoomAvailabilityRecords(event);
+  }
+
+  private async createRoomAvailabilityRecords(event: RoomReservedEvent): Promise<void> {
+    this.logger.log(`createRoomAvailabilityRecords with room id=${event.roomId}`);
+    const room = await this.roomRepository.findOne(event.roomId);
+
+    if (!room) {
+      this.logger.log(`Room not found`);
+      throw new Error('Room not found');
+    }
+
+    // Создаем записи для каждого дня в периоде
+    const currentDate = new Date(event.dateFrom);
+    const endDate = new Date(event.dateTo);
+
+    while (currentDate < endDate) {
+      const roomAvailability = new RoomAvailability(
+          room,
+          new Date(currentDate),
+          false, // is_available = false
+          event.bookingId
+      );
+
+      this.em.persist(roomAvailability);
+
+      // Переходим к следующему дню
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+
+    await this.em.flush();
+  }
 
   @EnsureRequestContext()
   async create(roomData: RoomCreate): Promise<Room> {

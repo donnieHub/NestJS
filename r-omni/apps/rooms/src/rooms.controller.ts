@@ -1,12 +1,13 @@
 import {Controller, Logger} from '@nestjs/common';
 import { RoomsService } from './rooms.service';
-import {MessagePattern, Payload} from "@nestjs/microservices";
+import {EventPattern, MessagePattern, Payload} from "@nestjs/microservices";
 import {Room} from "./entities/rooms.entity";
 import {CommandBus, QueryBus} from "@nestjs/cqrs";
 import {GetRoomByIdQuery} from "./queries/get.room.by.id.query";
-import {BookRoomCommand} from "./commands/book.room.command";
 import {GetRoomsQuery} from "./queries/get.rooms.query";
 import {GetAvailableRoomsQuery} from "./queries/get.available.rooms.query";
+import {BookingCreatedEvent} from "../../booking/src/events/booking.created.event";
+import {RoomReservedEvent} from "./events/room.reserved.event";
 
 @Controller()
 export class RoomsController {
@@ -36,9 +37,26 @@ export class RoomsController {
     return this.queryBus.execute(new GetAvailableRoomsQuery(query.startDate, query.endDate, query.buildingId));
   }
 
-  @MessagePattern('room.book')
-  bookRoom(@Payload() id: string, is_available: boolean, from: Date, to: Date): Promise<Room | null> {
-    this.logger.log(`Received request: room.book with id=${id}`);
-    return this.commandBus.execute(new BookRoomCommand(id, is_available, from, to));
+  // @MessagePattern('room.book')
+  // bookRoom(@Payload() id: string, is_available: boolean, from: Date, to: Date): Promise<Room | null> {
+  //   this.logger.log(`Received request: room.book with id=${id}`);
+  //   return this.commandBus.execute(new BookRoomCommand(id, is_available, from, to));
+  // }
+
+  // Обработчик события создания бронирования - запускает резервирование комнаты
+  @EventPattern('booking.start')
+  async handleBookingCreated(@Payload() data: BookingCreatedEvent) {
+    this.logger.log(`Room Service: Received booking.start event bookingId ${data.bookingId}`);
+    this.logger.log(`Room Service: Received booking.start event roomId ${data.roomId}`);
+
+    // Создаем событие для резервирования комнаты
+    const reserveEvent: RoomReservedEvent = {
+      bookingId: data.bookingId,
+      roomId: data.roomId,
+      dateFrom: data.dateFrom,
+      dateTo: data.dateTo,
+    };
+
+    await this.roomService.reserveRoom(reserveEvent);
   }
 }

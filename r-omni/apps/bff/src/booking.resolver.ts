@@ -9,7 +9,9 @@ import {BookingInput} from "../../booking/src/dto/booking.input";
 export class BookingResolver {
     private readonly logger = new Logger(BookingResolver.name);
 
-    constructor(private readonly natsClient: NatsClientService) {}
+    constructor(
+        private readonly natsClient: NatsClientService,
+    ) {}
 
     @Query(() => [BookingModel])
     async bookings(): Promise<BookingModel[]> {
