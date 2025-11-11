@@ -1,4 +1,4 @@
-export class BookingCreatedEvent {
+export class BookingStartEvent {
     constructor(
         public readonly bookingId: string,
         public readonly userId: string,

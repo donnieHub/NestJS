@@ -6,7 +6,7 @@ import {CommandBus, QueryBus} from "@nestjs/cqrs";
 import {GetRoomByIdQuery} from "./queries/get.room.by.id.query";
 import {GetRoomsQuery} from "./queries/get.rooms.query";
 import {GetAvailableRoomsQuery} from "./queries/get.available.rooms.query";
-import {BookingCreatedEvent} from "../../booking/src/events/booking.created.event";
+import {BookingStartEvent} from "../../booking/src/events/booking.start.event";
 import {RoomReservedEvent} from "./events/room.reserved.event";
 
 @Controller()
@@ -37,15 +37,9 @@ export class RoomsController {
     return this.queryBus.execute(new GetAvailableRoomsQuery(query.startDate, query.endDate, query.buildingId));
   }
 
-  // @MessagePattern('room.book')
-  // bookRoom(@Payload() id: string, is_available: boolean, from: Date, to: Date): Promise<Room | null> {
-  //   this.logger.log(`Received request: room.book with id=${id}`);
-  //   return this.commandBus.execute(new BookRoomCommand(id, is_available, from, to));
-  // }
-
   // Обработчик события создания бронирования - запускает резервирование комнаты
   @EventPattern('booking.start')
-  async handleBookingCreated(@Payload() data: BookingCreatedEvent) {
+  async handleBookingStart(@Payload() data: BookingStartEvent) {
     this.logger.log(`Room Service: Received booking.start event bookingId ${data.bookingId}`);
     this.logger.log(`Room Service: Received booking.start event roomId ${data.roomId}`);
 

@@ -7,7 +7,10 @@ import {BookingStatus} from "./entities/booking.status";
 import {Roles} from "../../user/src/decorators/roles.decorator";
 import {UserRole} from "../../user/src/entities/user.role";
 import {ClientProxy, ClientProxyFactory, Transport} from "@nestjs/microservices";
-import {BookingCreatedEvent} from "./events/booking.created.event";
+import {BookingStartEvent} from "./events/booking.start.event";
+import {BookingConfirmedEvent} from "./events/booking.confirmed.event";
+import {BookingCancelledEvent} from "./events/booking.cancelled.event";
+import {RoomWasReservedEvent} from "../../rooms/src/events/room.was.reserved.event";
 
 @Injectable()
 export class BookingService {
@@ -49,7 +52,7 @@ export class BookingService {
     await this.em.persistAndFlush(booking);
 
     // Публикуем событие начала Saga
-    const event = new BookingCreatedEvent(
+    const event = new BookingStartEvent(
         booking.id,
         booking.user_id,
         booking.room_id,
@@ -60,6 +63,63 @@ export class BookingService {
     this.natsClient.emit('booking.start', event);
 
     return booking;
+  }
+
+  @EnsureRequestContext()
+  async handleRoomReserved(event: RoomWasReservedEvent): Promise<void> {
+    this.logger.log(`handleRoomReserved with booking_id=${event.bookingId}`);
+    const booking = await this.bookingRepository.findOne(event.bookingId);
+
+    if (!booking) {
+      throw new Error(`Booking ${event.bookingId} not found`);
+    }
+
+    if (event.success) {
+      // Комната успешно забронирована
+      booking.status = BookingStatus.CONFIRMED;
+      await this.em.flush();
+
+      // Публикуем событие подтверждения бронирования
+      const eventConfirmed = new BookingConfirmedEvent(event.bookingId);
+
+      this.logger.log(`natsClient.emit("booking.confirmed"`);
+      this.natsClient.emit(`booking.confirmed`, eventConfirmed);
+    } else {
+      // Не удалось забронировать комнату
+      booking.status = BookingStatus.CANCELLED;
+      await this.em.flush();
+
+      const eventCanceled = new BookingCancelledEvent(event.bookingId, 'Room not available');
+      this.logger.log(`natsClient.emit("booking.canceled"`);
+      this.natsClient.emit(`booking.canceled`, eventCanceled);
+    }
+  }
+
+  @EnsureRequestContext()
+  async cancelBooking(booking_id: string): Promise<void> {
+    this.logger.log(`cancelBooking with booking_id=${booking_id}`);
+    const booking = await this.bookingRepository.findOne(booking_id);
+
+    if (!booking) {
+      throw new Error(`Booking ${booking_id} not found`);
+    }
+
+    if (booking.status === BookingStatus.CONFIRMED) {
+      // Запрос на освобождение комнаты
+      this.natsClient.emit(`room.released`, {
+        booking_id: booking.id,
+        room_id: booking.room_id,
+        date_from: booking.date_from,
+        date_to: booking.date_to,
+      });
+    }
+
+    booking.status = BookingStatus.CANCELLED;
+    await this.em.flush();
+
+    const eventCanceled = new BookingCancelledEvent(booking_id, 'Room not available');
+    this.logger.log(`natsClient.emit("booking.canceled"`);
+    this.natsClient.emit(`booking.canceled`, eventCanceled);
   }
 
   @EnsureRequestContext()
