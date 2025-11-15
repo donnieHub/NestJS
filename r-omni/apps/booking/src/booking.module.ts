@@ -8,11 +8,14 @@ import {config} from "../mikro-orm.config";
 import {ClientsModule, Transport} from "@nestjs/microservices";
 import {CqrsModule} from "@nestjs/cqrs";
 import {bookingStartedSaga} from "./sagas/booking.start.saga";
+import {TimeoutService} from "./utils/timeout.service";
+import {ScheduleModule, SchedulerRegistry} from "@nestjs/schedule";
 
 @Module({
   imports: [
       ConfigModule.forRoot(),
       CqrsModule,
+      ScheduleModule.forRoot(),
       MikroOrmModule.forRoot(config),
       MikroOrmModule.forFeature({ entities: [Booking] }),
       ClientsModule.register([
@@ -24,6 +27,6 @@ import {bookingStartedSaga} from "./sagas/booking.start.saga";
       ]),
   ],
   controllers: [BookingController],
-  providers: [BookingService, bookingStartedSaga],
+  providers: [BookingService, bookingStartedSaga, TimeoutService, SchedulerRegistry],
 })
 export class BookingModule {}

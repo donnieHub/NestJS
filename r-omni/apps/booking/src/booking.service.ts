@@ -12,6 +12,8 @@ import {BookingConfirmedEvent} from "./events/booking.confirmed.event";
 import {BookingCancelledEvent} from "./events/booking.cancelled.event";
 import {RoomWasReservedEvent} from "../../rooms/src/events/room.was.reserved.event";
 import {EventBus} from "@nestjs/cqrs";
+import {TimeoutService} from "./utils/timeout.service";
+import {BookingTimeoutEvent} from "./events/booking.timeout.event";
 
 @Injectable()
 export class BookingService {
@@ -22,6 +24,7 @@ export class BookingService {
       private readonly bookingRepository: BookingRepository,
       private readonly em: EntityManager,
       private readonly eventBus: EventBus,
+      private readonly timeoutService: TimeoutService,
   ) {
     this.natsClient = ClientProxyFactory.create({
       transport: Transport.NATS,
@@ -68,12 +71,19 @@ export class BookingService {
     this.logger.log(`natsClient.emit("booking.start")`)
     this.natsClient.emit('booking.start', event);
 
+    // Запускаем таймаут (30 секунд по умолчанию)
+    this.timeoutService.scheduleTimeout(booking.id, 30000);
+
     return booking;
   }
 
   @EnsureRequestContext()
   async handleRoomReserved(event: RoomWasReservedEvent): Promise<void> {
     this.logger.log(`handleRoomReserved with booking_id=${event.bookingId}`);
+
+    // Отменяем таймаут при получении ответа
+    this.timeoutService.cancelTimeout(event.bookingId);
+
     const booking = await this.bookingRepository.findOne(event.bookingId);
 
     if (!booking) {
@@ -96,8 +106,31 @@ export class BookingService {
       await this.em.flush();
 
       const eventCanceled = new BookingCancelledEvent(event.bookingId, 'Room not available');
-      this.logger.log(`natsClient.emit("booking.canceled"`);
+      this.logger.log(`natsClient.emit("booking.canceled)"`);
       this.natsClient.emit(`booking.canceled`, eventCanceled);
+    }
+  }
+
+  // Обработчик таймаута если сервис room упал
+  @EnsureRequestContext()
+  async handleBookingTimeout(event: BookingTimeoutEvent): Promise<void> {
+    this.logger.warn(`Processing timeout for booking ${event.bookingId}`);
+
+    const booking = await this.bookingRepository.findOne(event.bookingId);
+    if (!booking) return;
+
+    if (booking.status === BookingStatus.PENDING) {
+      booking.status = BookingStatus.CANCELLED;
+      await this.em.flush();
+
+      this.logger.log(`Booking ${event.bookingId} cancelled due to timeout`);
+
+      // Отправляем событие отмены
+      const eventCanceled = new BookingCancelledEvent(
+          event.bookingId,
+          `Reservation timeout: ${event.reason}`
+      );
+      this.natsClient.emit('booking.canceled', eventCanceled);
     }
   }
 
@@ -124,7 +157,7 @@ export class BookingService {
     await this.em.flush();
 
     const eventCanceled = new BookingCancelledEvent(booking_id, 'Room not available');
-    this.logger.log(`natsClient.emit("booking.canceled"`);
+    this.logger.log(`natsClient.emit("booking.canceled)"`);
     this.natsClient.emit(`booking.canceled`, eventCanceled);
   }
 

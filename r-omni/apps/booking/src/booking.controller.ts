@@ -5,6 +5,7 @@ import {Booking} from "./entities/booking.entity";
 import {BookingInput} from "./dto/booking.input";
 import {UserAttachInterceptor} from "./intercepters/UserAttachInterceptor";
 import {RoomWasReservedEvent} from "../../rooms/src/events/room.was.reserved.event";
+import {BookingTimeoutEvent} from "./events/booking.timeout.event";
 
 @Controller()
 export class BookingController {
@@ -38,5 +39,11 @@ export class BookingController {
   cancel(@Payload() id: string): Promise<boolean> {
     this.logger.log(`Received request: booking.cancel with id=${id}`);
     return this.bookingService.cancel(id);
+  }
+
+  @MessagePattern('booking.timeout')
+  timeout(@Payload() event: BookingTimeoutEvent): Promise<void> {
+    this.logger.log(`Received request: booking.timeout with bokingId=${event.bookingId} reason=${event.reason}`);
+    return this.bookingService.handleBookingTimeout(event);
   }
 }
