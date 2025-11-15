@@ -7,6 +7,7 @@ import {Booking} from "./entities/booking.entity";
 import {config} from "../mikro-orm.config";
 import {ClientsModule, Transport} from "@nestjs/microservices";
 import {CqrsModule} from "@nestjs/cqrs";
+import {bookingStartedSaga} from "./sagas/booking.start.saga";
 
 @Module({
   imports: [
@@ -23,6 +24,6 @@ import {CqrsModule} from "@nestjs/cqrs";
       ]),
   ],
   controllers: [BookingController],
-  providers: [BookingService],
+  providers: [BookingService, bookingStartedSaga],
 })
 export class BookingModule {}

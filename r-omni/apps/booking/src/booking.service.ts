@@ -11,6 +11,7 @@ import {BookingStartEvent} from "./events/booking.start.event";
 import {BookingConfirmedEvent} from "./events/booking.confirmed.event";
 import {BookingCancelledEvent} from "./events/booking.cancelled.event";
 import {RoomWasReservedEvent} from "../../rooms/src/events/room.was.reserved.event";
+import {EventBus} from "@nestjs/cqrs";
 
 @Injectable()
 export class BookingService {
@@ -20,6 +21,7 @@ export class BookingService {
   constructor(
       private readonly bookingRepository: BookingRepository,
       private readonly em: EntityManager,
+      private readonly eventBus: EventBus,
   ) {
     this.natsClient = ClientProxyFactory.create({
       transport: Transport.NATS,
@@ -60,6 +62,10 @@ export class BookingService {
         booking.date_to,
     );
 
+    this.logger.log(`eventBus.publish("booking.start")`)
+    this.eventBus.publish(event);
+
+    this.logger.log(`natsClient.emit("booking.start")`)
     this.natsClient.emit('booking.start', event);
 
     return booking;
