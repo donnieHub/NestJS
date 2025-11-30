@@ -1,0 +1,11 @@
+# This code is generated automatically.
+# You are not supposed to touch it!
+#
+# This file is also used by the buf plugin in VSCode.
+
+version: v1
+lint:
+  use:
+    - DEFAULT
+    - COMMENTS
+  allow_comment_ignores: true

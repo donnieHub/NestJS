@@ -1,0 +1,6 @@
+####################################################
+# This file is controlled by ppm. Don't modify it! #
+####################################################
+version: v1
+directories:
+  - proto

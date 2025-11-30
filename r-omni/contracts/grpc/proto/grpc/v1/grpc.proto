@@ -1,0 +1,7 @@
+// grpc
+syntax = "proto3";
+
+package grpc.v1;
+
+// GrpcService
+service GrpcService {}

@@ -1,0 +1,9 @@
+{
+  "$schema": "http://repos.rvision.pro/platform/ppm/schema.json",
+  "name": "r-omni.entity",
+  "version": "1.0.0",
+  "description": "Booking entity",
+  "rootDir": "proto",
+  "outDir": "dist",
+  "protogen": "2.2.0"
+}

@@ -1,0 +1,115 @@
+syntax = "proto3";
+
+package booking.v1;
+
+// -----------------------------
+// ENUM BookingStatus
+// -----------------------------
+enum BookingStatus {
+  // PENDING
+  BOOKING_STATUS_UNSPECIFIED = 0;
+  // PENDING
+  BOOKING_STATUS_PENDING = 1;
+  // CONFIRMED
+  BOOKING_STATUS_CONFIRMED = 2;
+  // CANCELLED
+  BOOKING_STATUS_CANCELLED = 3;
+  // COMPLETED
+  BOOKING_STATUS_COMPLETED = 4;
+  // FAILED
+  BOOKING_STATUS_FAILED = 5;
+}
+
+// -----------------------------
+// Booking entity (аналог BookingModel)
+// -----------------------------
+message Booking {
+  // Booking id
+  string id = 1;
+
+  // User id
+  string user_id = 2;
+
+  // Room id
+  string room_id = 3;
+
+  // Даты в gRPC передаются как ISO-строки или таймстемпы.
+  // Тут строковый timestamp, чтобы было совместимо с Date.
+  string date_from = 4;
+
+  // Даты в gRPC передаются как ISO-строки или таймстемпы.
+  // Тут строковый timestamp, чтобы было совместимо с Date.
+  string date_to = 5;
+
+  // BookingStatus
+  BookingStatus status = 6;
+
+  // Time of creation
+  string created_at = 7;
+}
+
+// -----------------------------
+// DTO для создания (аналог BookingInput)
+// -----------------------------
+message CreateBookingRequest {
+  // User id
+  string user_id = 1;
+
+  // Room id
+  string room_id = 2;
+
+  // Date from. Также строки (ISO timestamps)
+  string date_from = 3;
+
+  // Date to.  Также строки (ISO timestamps)
+  string date_to = 4;
+}
+
+// Ответ после создания
+message CreateBookingResponse {
+  // Booking response
+  Booking booking = 1;
+}
+
+// -----------------------------
+// Получить список всех бронирований
+// -----------------------------
+message GetAllBookingsRequest {}
+
+// -----------------------------
+// Ответ. Получение всех бронирований
+// -----------------------------
+message GetAllBookingsResponse {
+  // All booking response
+  repeated Booking bookings = 1;
+}
+
+// -----------------------------
+// Запрос. Отмена бронирования
+// -----------------------------
+message CancelBookingRequest {
+  // Booking id
+  string id = 1;
+}
+
+// -----------------------------
+// Ответ. Отмена бронирования
+// -----------------------------
+message CancelBookingResponse {
+  // Success or not
+  bool success = 1;
+}
+
+// -----------------------------
+// gRPC сервис
+// -----------------------------
+service BookingService {
+  // Получаем все бронирования
+  rpc GetAllBookings(GetAllBookingsRequest) returns (GetAllBookingsResponse);
+
+  // Создаем бронирование
+  rpc CreateBooking(CreateBookingRequest) returns (CreateBookingResponse);
+
+  // Отменяем бронирование
+  rpc CancelBooking(CancelBookingRequest) returns (CancelBookingResponse);
+}
