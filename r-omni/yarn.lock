@@ -490,6 +490,11 @@
   resolved "https://registry.npmjs.org/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
+"@bufbuild/protobuf@^1.4.2":
+  version "1.10.1"
+  resolved "https://registry.yarnpkg.com/@bufbuild/protobuf/-/protobuf-1.10.1.tgz#1d76d15290c0212076c15ede94d15157ba0c6344"
+  integrity sha512-wJ8ReQbHxsAfXhrf9ixl0aYbZorRuOWpBNzm8pL8ftmSxQx/wnJD5Eg861NwJU/czy2VXFIebCeZnZrI9rktIQ==
+
 "@colors/colors@1.5.0":
   version "1.5.0"
   resolved "https://registry.npmjs.org/@colors/colors/-/colors-1.5.0.tgz"
@@ -1269,6 +1274,15 @@
     "@napi-rs/nice-win32-ia32-msvc" "1.0.1"
     "@napi-rs/nice-win32-x64-msvc" "1.0.1"
 
+"@nestjs-plugins/nestjs-nats-jetstream-transport@2.2.6", "@nestjs-plugins/nestjs-nats-jetstream-transport@^2.2.6":
+  version "2.2.6"
+  resolved "https://registry.yarnpkg.com/@nestjs-plugins/nestjs-nats-jetstream-transport/-/nestjs-nats-jetstream-transport-2.2.6.tgz#43e8410b8e496121e1b6b5d99602967dbd3dc347"
+  integrity sha512-za5yLceHYcqrl51HZUO63PyYHB5zzIv0t+dg5kFT3AUUrmbhdClTZzhyunIwQP5AJ7KiHA6lQxiL8BX81CVgeQ==
+  dependencies:
+    nats "^2.19.0"
+    reflect-metadata "^0.1.13"
+    rxjs "^7.4.0"
+
 "@nestjs/apollo@^13.1.0":
   version "13.1.0"
   resolved "https://registry.npmjs.org/@nestjs/apollo/-/apollo-13.1.0.tgz"
@@ -1539,6 +1553,47 @@
     lodash "^4.17.21"
     pino "^8.0.0 || ^9.0.0"
     prom-client "^14.2.0"
+
+"@rsdk/grpc.clients@5.10.0":
+  version "5.10.0"
+  resolved "https://registry.yarnpkg.com/@rsdk/grpc.clients/-/grpc.clients-5.10.0.tgz#708f0db170a201ecefadc12eb7b13462fcd59190"
+  integrity sha512-CkAJkl57zWsYHrS/QpTbJ7tFoPUnXL5ZManoQLtHN6yR0/g7sIppwE9Y7Lu9raYOBW2BL/NygPSV0DiCy1Ffeg==
+
+"@rsdk/grpc.server@5.10.0":
+  version "5.10.0"
+  resolved "https://registry.yarnpkg.com/@rsdk/grpc.server/-/grpc.server-5.10.0.tgz#4eb51ec4af918fa2974629cffcb283c890becbef"
+  integrity sha512-ERv8MCIA3YTkG4c+g276u/Imyd5YjKxdFuRfm1Yys0+w6JwOPPnXE1Q54gQe4MBF3Lk9R0Fv85wIkTxZ3yar+w==
+  dependencies:
+    "@bufbuild/protobuf" "^1.4.2"
+
+"@rsdk/nats.common@5.10.0":
+  version "5.10.0"
+  resolved "https://registry.yarnpkg.com/@rsdk/nats.common/-/nats.common-5.10.0.tgz#f8de7f52ad4a7bf2d90d35bd80237aff1bf3585e"
+  integrity sha512-ZrqIZBygCv0cdqhwLFnGpPOyTX5Kic/Rdf/BX3klw0zDJw0vxHLF10f4KWGELtIj3glQs2QeWxpisg7VBFmTxw==
+  dependencies:
+    lodash "^4.17.21"
+    protobufjs "^7.2.3"
+
+"@rsdk/nats.producer.direct@5.10.0":
+  version "5.10.0"
+  resolved "https://registry.yarnpkg.com/@rsdk/nats.producer.direct/-/nats.producer.direct-5.10.0.tgz#56fad016091b24257aefae27ff512aeda56faa72"
+  integrity sha512-/qOX7E6SdNZvNQqJSecGnF1Nbxnf/LEEHCplgh7bqszpPiAc6Eq7fq69VfyQ9gTu5t6d9KOIu6nmW6aU8Ec2WA==
+  dependencies:
+    lodash "^4.17.21"
+
+"@rsdk/nats.producer@5.10.0":
+  version "5.10.0"
+  resolved "https://registry.yarnpkg.com/@rsdk/nats.producer/-/nats.producer-5.10.0.tgz#2a1e2787e62cafbd6d350b31ce43282951b5454f"
+  integrity sha512-/CGUZ8j4aLB10Ff5TYsSRVmA8UcLJZU2Cuh9eiSZqiwE5IcXxpLfszTs+XW4D5WaLPVz3kW7dtC/D8ZM7+di3w==
+
+"@rsdk/nats.transport@5.10.0":
+  version "5.10.0"
+  resolved "https://registry.yarnpkg.com/@rsdk/nats.transport/-/nats.transport-5.10.0.tgz#3f429cc75485bbffdc569c2580372aae5ab6fe85"
+  integrity sha512-PgHiepaY/AGEQM63Y1oQgdpyyuiAN8tGwmR90La8TWASwuApM4PxpRK9r7srBm8hmovAuaLqLZuHmlVZwaiCrQ==
+  dependencies:
+    "@nestjs-plugins/nestjs-nats-jetstream-transport" "^2.2.6"
+    lodash "^4.17.21"
+    nats "~2.28.2"
 
 "@rushstack/node-core-library@5.13.0":
   version "5.13.0"
@@ -1950,6 +2005,13 @@
   integrity sha512-LNdjOkUDlU1RZb8e1kOIUpN1qQUlzGkEtbVNo53vbrwDg5om6oduhm4SiUaPW5ASTXhAiP0jInWG8Qx9fVlOeQ==
   dependencies:
     undici-types "~6.21.0"
+
+"@types/node@>=13.7.0":
+  version "24.10.1"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-24.10.1.tgz#91e92182c93db8bd6224fca031e2370cef9a8f01"
+  integrity sha512-GNWcUTRBgIRJD5zj+Tq0fKOJ5XZajIiBroOF0yvj2bSU1WvNdYS/dn9UxwsujGW4JX06dnHyjV2y9rRaybH0iQ==
+  dependencies:
+    undici-types "~7.16.0"
 
 "@types/passport-jwt@^4.0.1":
   version "4.0.1"
@@ -5261,6 +5323,11 @@ long@^4.0.0:
   resolved "https://registry.npmjs.org/long/-/long-4.0.0.tgz"
   integrity sha512-XsP+KhQif4bjX1kbuSiySJFNAehNxgLb6hPRGJ9QsUr8ajHkuXGdrHmFUTUUXhDwVX2R5bY4JNZEwbUiMhV+MA==
 
+long@^5.0.0:
+  version "5.3.2"
+  resolved "https://registry.yarnpkg.com/long/-/long-5.3.2.tgz#1d84463095999262d7d7b7f8bfd4a8cc55167f83"
+  integrity sha512-mNAgZ1GmyNhD7AuqnTG3/VQ26o760+ZYBPKjPvugO8+nLbYfX6TVpJPseBvopbdY+qpZ/lKUnmEc1LeZYS3QAA==
+
 lowercase-keys@^3.0.0:
   version "3.0.0"
   resolved "https://registry.npmjs.org/lowercase-keys/-/lowercase-keys-3.0.0.tgz"
@@ -5508,10 +5575,17 @@ mute-stream@^2.0.0:
   resolved "https://registry.npmjs.org/mute-stream/-/mute-stream-2.0.0.tgz"
   integrity sha512-WWdIxpyjEn+FhQJQQv9aQAYlHoNVdzIzUySNV1gHUPDSdZJ3yZn7pAAbQcV7B56Mvu881q9FZV+0Vx2xC44VWA==
 
-nats@^2.29.3:
+nats@^2.19.0, nats@^2.29.3:
   version "2.29.3"
   resolved "https://registry.npmjs.org/nats/-/nats-2.29.3.tgz"
   integrity sha512-tOQCRCwC74DgBTk4pWZ9V45sk4d7peoE2njVprMRCBXrhJ5q5cYM7i6W+Uvw2qUrcfOSnuisrX7bEx3b3Wx4QA==
+  dependencies:
+    nkeys.js "1.1.0"
+
+nats@~2.28.2:
+  version "2.28.2"
+  resolved "https://registry.yarnpkg.com/nats/-/nats-2.28.2.tgz#b3ad20e1204fe917d87b7d3fbcd76985461fa490"
+  integrity sha512-02cvR8EPach+0BfVaQjPgsbPFn6uMjEQAuvXS2ppg8jiWEm2KYdfmeFmtshiU9b2+kFh3LSEKMEaIfRgk3K8tw==
   dependencies:
     nkeys.js "1.1.0"
 
@@ -6063,6 +6137,24 @@ prompts@^2.0.1:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
+protobufjs@^7.2.3:
+  version "7.5.4"
+  resolved "https://registry.yarnpkg.com/protobufjs/-/protobufjs-7.5.4.tgz#885d31fe9c4b37f25d1bb600da30b1c5b37d286a"
+  integrity sha512-CvexbZtbov6jW2eXAvLukXjXUW1TzFaivC46BpWc/3BpcCysb5Vffu+B3XHMm8lVEuy2Mm4XGex8hBSg1yapPg==
+  dependencies:
+    "@protobufjs/aspromise" "^1.1.2"
+    "@protobufjs/base64" "^1.1.2"
+    "@protobufjs/codegen" "^2.0.4"
+    "@protobufjs/eventemitter" "^1.1.0"
+    "@protobufjs/fetch" "^1.1.0"
+    "@protobufjs/float" "^1.0.2"
+    "@protobufjs/inquire" "^1.1.0"
+    "@protobufjs/path" "^1.1.2"
+    "@protobufjs/pool" "^1.1.0"
+    "@protobufjs/utf8" "^1.1.0"
+    "@types/node" ">=13.7.0"
+    long "^5.0.0"
+
 proxy-addr@~2.0.7:
   version "2.0.7"
   resolved "https://registry.npmjs.org/proxy-addr/-/proxy-addr-2.0.7.tgz"
@@ -6294,6 +6386,11 @@ reflect-metadata@0.2.2, reflect-metadata@^0.2.2:
   resolved "https://registry.npmjs.org/reflect-metadata/-/reflect-metadata-0.2.2.tgz"
   integrity sha512-urBwgfrvVP/eAyXx4hluJivBKzuEbSQs9rKWCrCkbSxNv8mxPcUZKeuoF3Uy4mJl3Lwprp6yy5/39VWigZ4K6Q==
 
+reflect-metadata@^0.1.13:
+  version "0.1.14"
+  resolved "https://registry.yarnpkg.com/reflect-metadata/-/reflect-metadata-0.1.14.tgz#24cf721fe60677146bb77eeb0e1f9dece3d65859"
+  integrity sha512-ZhYeb6nRaXCfhnndflDK8qI6ZQ/YcWZCISRAWICW9XYqMUwjZM9Z0DveWX/ABN01oxSHwVxKQmxeYZSsm0jh5A==
+
 repeat-string@^1.6.1:
   version "1.6.1"
   resolved "https://registry.npmjs.org/repeat-string/-/repeat-string-1.6.1.tgz"
@@ -6395,7 +6492,7 @@ rxjs@7.8.1:
   dependencies:
     tslib "^2.1.0"
 
-rxjs@^7.8.1:
+rxjs@^7.4.0, rxjs@^7.8.1:
   version "7.8.2"
   resolved "https://registry.npmjs.org/rxjs/-/rxjs-7.8.2.tgz"
   integrity sha512-dhKf903U/PQZY6boNNtAGdWbG85WAbjT/1xYoZIC7FAY0yWapOBQVsVrDl58W86//e1VpMNBtRV4MaXfdMySFA==
@@ -7219,6 +7316,11 @@ undici-types@~6.21.0:
   version "6.21.0"
   resolved "https://registry.npmjs.org/undici-types/-/undici-types-6.21.0.tgz"
   integrity sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==
+
+undici-types@~7.16.0:
+  version "7.16.0"
+  resolved "https://registry.yarnpkg.com/undici-types/-/undici-types-7.16.0.tgz#ffccdff36aea4884cbfce9a750a0580224f58a46"
+  integrity sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw==
 
 universalify@^2.0.0:
   version "2.0.1"
