@@ -1585,6 +1585,11 @@
   resolved "https://registry.npmjs.org/@protobufjs/utf8/-/utf8-1.1.0.tgz"
   integrity sha512-Vvn3zZrhQZkkBE8LSuW3em98c0FwgO4nxzv6OdSxPKJIEKY2bGbHn+mhGIPerzI4twdxaP8/0+06HBpwf345Lw==
 
+"@rsdk/actx@5.10.0":
+  version "5.10.0"
+  resolved "https://registry.yarnpkg.com/@rsdk/actx/-/actx-5.10.0.tgz#af159a8d5934a0452e86035ef2f70129c4e8fbf4"
+  integrity sha512-JI/ncRFnT0/QFTGIChTWB98vO7PkDwd7LjOTXa7NunUh7Lv4tic62x2ok+xV0NrD7Y9+xKQsx2ShlcHS9+F9Kw==
+
 "@rsdk/autodoc.protocol@5.10.0":
   version "5.10.0"
   resolved "https://registry.yarnpkg.com/@rsdk/autodoc.protocol/-/autodoc.protocol-5.10.0.tgz#abf0a916acb9fb488a9103d0512792a695228673"
