@@ -1661,6 +1661,11 @@
     lodash "^4.17.21"
     nats "~2.28.2"
 
+"@rsdk/nest-tools@5.10.0":
+  version "5.10.0"
+  resolved "https://registry.yarnpkg.com/@rsdk/nest-tools/-/nest-tools-5.10.0.tgz#ae2baa8aab9772d81b11208c79d39b5c35b2534d"
+  integrity sha512-gRb5bQkPc75paCsRiAlzQCJS2he+C5kwGzF5vFwabryLKXILPAMo86+kI2lfNuAw/dFc8bnuWlFuboNpJpFP0Q==
+
 "@rushstack/node-core-library@5.13.0":
   version "5.13.0"
   resolved "https://registry.npmjs.org/@rushstack/node-core-library/-/node-core-library-5.13.0.tgz"
