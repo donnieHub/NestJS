@@ -59,6 +59,7 @@
     "@rsdk/grpc.clients": "5.10.0",
     "@rsdk/grpc.server": "5.10.0",
     "@rsdk/logging": "5.10.0",
+    "@rsdk/metadata": "5.10.0",
     "@rsdk/nats.common": "5.10.0",
     "@rsdk/nats.producer": "5.10.0",
     "@rsdk/nats.producer.direct": "5.10.0",
