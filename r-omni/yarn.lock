@@ -108,7 +108,7 @@
   dependencies:
     "@apollographql/graphql-playground-html" "1.6.29"
 
-"@apollo/server@^4.12.2":
+"@apollo/server@^4.12.2", "@apollo/server@^4.9.5":
   version "4.12.2"
   resolved "https://registry.npmjs.org/@apollo/server/-/server-4.12.2.tgz"
   integrity sha512-jKRlf+sBMMdKYrjMoiWKne42Eb6paBfDOr08KJnUaeaiyWFj+/040FjVPQI7YGLfdwnYIsl1NUUqS2UdgezJDg==
@@ -1624,6 +1624,14 @@
   version "5.10.0"
   resolved "https://registry.yarnpkg.com/@rsdk/decorators/-/decorators-5.10.0.tgz#517b275b19281df4fc706873e8b6be1766836d9c"
   integrity sha512-wLN6dAjwp/vhwmhlTVk2rqPIQoI+vADHvuNogJZNRbkOzHrGiLYnqowcoaKQ2lh+O4BPFACw0ltuQmB1O3BSLA==
+
+"@rsdk/graphql@5.10.0":
+  version "5.10.0"
+  resolved "https://registry.yarnpkg.com/@rsdk/graphql/-/graphql-5.10.0.tgz#2a147e939f90f94ca30e2ad8441d9667494c5e41"
+  integrity sha512-VJg1cjOc+2SU9LbCC0zmN6r8Fuvb7e7qROH1V+SJoRKoh6I+oLgTSdzG31V7qBaAn0esyIdXkZxYq1661Z7UWg==
+  dependencies:
+    "@apollo/server" "^4.9.5"
+    "@apollo/utils.logger" "^2.0.0"
 
 "@rsdk/grpc.clients@5.10.0":
   version "5.10.0"
