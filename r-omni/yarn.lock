@@ -1620,6 +1620,13 @@
   dependencies:
     "@bufbuild/protobuf" "^1.4.2"
 
+"@rsdk/logging@5.10.0":
+  version "5.10.0"
+  resolved "https://registry.yarnpkg.com/@rsdk/logging/-/logging-5.10.0.tgz#e558e39f8a9ab287a4db81d62748a29c39b44966"
+  integrity sha512-PpAySSpGg91p4Dr8mKpXFCOjxLvRFVZZfPV4wFvxAE63OcPwXiVs2WZ9TjP5exByZLaWvkCeXxfC7CebskV1zw==
+  dependencies:
+    pino "^8.0.0 || ^9.0.0"
+
 "@rsdk/nats.common@5.10.0":
   version "5.10.0"
   resolved "https://registry.yarnpkg.com/@rsdk/nats.common/-/nats.common-5.10.0.tgz#f8de7f52ad4a7bf2d90d35bd80237aff1bf3585e"
