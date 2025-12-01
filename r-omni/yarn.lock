@@ -1593,6 +1593,11 @@
     long "^5.2.3"
     protobufjs "^7.2.3"
 
+"@rsdk/common@5.10.0":
+  version "5.10.0"
+  resolved "https://registry.yarnpkg.com/@rsdk/common/-/common-5.10.0.tgz#9114e74583ef85c2d7a8de134c1aa2b0470bcaf7"
+  integrity sha512-/eNPpAnGCDuaEXjH8s9WWwTVv7D+6Z/KuPXlwCqqMH8L/yxgkmvPV//N1eu7bgythKhhlq9JRJFQnL2+SgOvxQ==
+
 "@rsdk/core@5.10.0":
   version "5.10.0"
   resolved "https://registry.yarnpkg.com/@rsdk/core/-/core-5.10.0.tgz#2513995dab64af9162ba53ddbe2f8189523d9919"
