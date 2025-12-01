@@ -56,6 +56,7 @@
     "@rsdk/builtin-contract": "5.10.0",
     "@rsdk/common": "5.10.0",
     "@rsdk/core": "5.10.0",
+    "@rsdk/decorators": "5.10.0",
     "@rsdk/grpc.clients": "5.10.0",
     "@rsdk/grpc.server": "5.10.0",
     "@rsdk/logging": "5.10.0",
