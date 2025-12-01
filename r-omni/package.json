@@ -53,6 +53,7 @@
     "@nestjs/platform-express": "11.0.1",
     "@nestjs/schedule": "^6.0.1",
     "@nestjs/serve-static": "^5.0.3",
+    "@rsdk/builtin-contract": "5.10.0",
     "@rsdk/core": "5.10.0",
     "@rsdk/grpc.clients": "5.10.0",
     "@rsdk/grpc.server": "5.10.0",

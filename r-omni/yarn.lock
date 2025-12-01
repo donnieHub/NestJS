@@ -1585,6 +1585,14 @@
   resolved "https://registry.npmjs.org/@protobufjs/utf8/-/utf8-1.1.0.tgz"
   integrity sha512-Vvn3zZrhQZkkBE8LSuW3em98c0FwgO4nxzv6OdSxPKJIEKY2bGbHn+mhGIPerzI4twdxaP8/0+06HBpwf345Lw==
 
+"@rsdk/builtin-contract@5.10.0":
+  version "5.10.0"
+  resolved "https://registry.yarnpkg.com/@rsdk/builtin-contract/-/builtin-contract-5.10.0.tgz#dcd6399674c1e5fd5054ff6692752e0adeff7cfe"
+  integrity sha512-1kEt6E+6fNH3oGX7dHoFNPXU8nEwqJioov2UPIP8Mpb4rP288f7nGimtXYx3MLrEkoL2FssziiR4Ajgv7/Czug==
+  dependencies:
+    long "^5.2.3"
+    protobufjs "^7.2.3"
+
 "@rsdk/core@5.10.0":
   version "5.10.0"
   resolved "https://registry.yarnpkg.com/@rsdk/core/-/core-5.10.0.tgz#2513995dab64af9162ba53ddbe2f8189523d9919"
@@ -5374,7 +5382,7 @@ long@^4.0.0:
   resolved "https://registry.npmjs.org/long/-/long-4.0.0.tgz"
   integrity sha512-XsP+KhQif4bjX1kbuSiySJFNAehNxgLb6hPRGJ9QsUr8ajHkuXGdrHmFUTUUXhDwVX2R5bY4JNZEwbUiMhV+MA==
 
-long@^5.0.0:
+long@^5.0.0, long@^5.2.3:
   version "5.3.2"
   resolved "https://registry.yarnpkg.com/long/-/long-5.3.2.tgz#1d84463095999262d7d7b7f8bfd4a8cc55167f83"
   integrity sha512-mNAgZ1GmyNhD7AuqnTG3/VQ26o760+ZYBPKjPvugO8+nLbYfX6TVpJPseBvopbdY+qpZ/lKUnmEc1LeZYS3QAA==
