@@ -64,6 +64,7 @@
     "@rsdk/grpc.common": "5.10.0",
     "@rsdk/grpc.loader": "5.10.0",
     "@rsdk/grpc.server": "5.10.0",
+    "@rsdk/http.server.express": "5.10.0",
     "@rsdk/logging": "5.10.0",
     "@rsdk/metadata": "5.10.0",
     "@rsdk/nats.common": "5.10.0",

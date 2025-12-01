@@ -1655,6 +1655,11 @@
   dependencies:
     "@bufbuild/protobuf" "^1.4.2"
 
+"@rsdk/http.server.express@5.10.0":
+  version "5.10.0"
+  resolved "https://registry.yarnpkg.com/@rsdk/http.server.express/-/http.server.express-5.10.0.tgz#b66dd563dc4b54baa7d97cf42dd62c1c9c251399"
+  integrity sha512-7sF4qQ9eu0XORgQeiH6kK0NxUl5mNxYgzTXlZjGMuuIuDzdiVIeaq0Lby9vq0jZnuDcX8f8dUYJ4EHsNZLgFBA==
+
 "@rsdk/logging@5.10.0":
   version "5.10.0"
   resolved "https://registry.yarnpkg.com/@rsdk/logging/-/logging-5.10.0.tgz#e558e39f8a9ab287a4db81d62748a29c39b44966"
