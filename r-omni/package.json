@@ -61,6 +61,7 @@
     "@rsdk/decorators": "5.10.0",
     "@rsdk/grpc.clients": "5.10.0",
     "@rsdk/grpc.common": "5.10.0",
+    "@rsdk/grpc.loader": "5.10.0",
     "@rsdk/grpc.server": "5.10.0",
     "@rsdk/logging": "5.10.0",
     "@rsdk/metadata": "5.10.0",

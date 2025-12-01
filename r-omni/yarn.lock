@@ -1635,6 +1635,11 @@
   resolved "https://registry.yarnpkg.com/@rsdk/grpc.common/-/grpc.common-5.10.0.tgz#42cd1c6ebbec6f92a306eb5c8d6db13027011c8e"
   integrity sha512-G6YpzwqQaQ6xgbh6XtCoorsrQge/tZIc0M1wMoR7IpsFlXTj8XLdUQ1MTukYl8encyiKu+QmbcPiiYCM8CoMBw==
 
+"@rsdk/grpc.loader@5.10.0":
+  version "5.10.0"
+  resolved "https://registry.yarnpkg.com/@rsdk/grpc.loader/-/grpc.loader-5.10.0.tgz#73a4827cc20a6f6e54950bddfd89c3962c3e3a5d"
+  integrity sha512-/G7MXwr4h/66nEKLDakFBBwMxS7k46m6NVn7SK7hsL0TuKt6VUHzlMIsJLuHcU4c2WMgeWiAqPB/iTK0S24Tiw==
+
 "@rsdk/grpc.server@5.10.0":
   version "5.10.0"
   resolved "https://registry.yarnpkg.com/@rsdk/grpc.server/-/grpc.server-5.10.0.tgz#4eb51ec4af918fa2974629cffcb283c890becbef"
