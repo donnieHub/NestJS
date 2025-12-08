@@ -1647,6 +1647,13 @@
   resolved "https://registry.yarnpkg.com/@rsdk/decorators/-/decorators-5.10.0.tgz#517b275b19281df4fc706873e8b6be1766836d9c"
   integrity sha512-wLN6dAjwp/vhwmhlTVk2rqPIQoI+vADHvuNogJZNRbkOzHrGiLYnqowcoaKQ2lh+O4BPFACw0ltuQmB1O3BSLA==
 
+"@rsdk/events.common@5.10.0":
+  version "5.10.0"
+  resolved "https://registry.yarnpkg.com/@rsdk/events.common/-/events.common-5.10.0.tgz#e416d497ba0ec81ab547c5d2a6d42ec7d7a963cf"
+  integrity sha512-tcjXwFKOouTJe/ufcJ77t251O+DaOJaC2i5giS/gsTMZUrEX0MSV7LvmPNLx4GeV+AlbcilqwGJZ+yUhE3DPyw==
+  dependencies:
+    protobufjs "^7.4.0"
+
 "@rsdk/graphql@5.10.0":
   version "5.10.0"
   resolved "https://registry.yarnpkg.com/@rsdk/graphql/-/graphql-5.10.0.tgz#2a147e939f90f94ca30e2ad8441d9667494c5e41"
@@ -6361,7 +6368,7 @@ prompts@^2.0.1:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-protobufjs@^7.2.3, protobufjs@^7.2.5, protobufjs@^7.5.3:
+protobufjs@^7.2.3, protobufjs@^7.2.5, protobufjs@^7.4.0, protobufjs@^7.5.3:
   version "7.5.4"
   resolved "https://registry.yarnpkg.com/protobufjs/-/protobufjs-7.5.4.tgz#885d31fe9c4b37f25d1bb600da30b1c5b37d286a"
   integrity sha512-CvexbZtbov6jW2eXAvLukXjXUW1TzFaivC46BpWc/3BpcCysb5Vffu+B3XHMm8lVEuy2Mm4XGex8hBSg1yapPg==
