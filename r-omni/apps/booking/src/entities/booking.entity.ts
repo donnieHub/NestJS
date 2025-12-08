@@ -13,36 +13,36 @@ export class Booking {
 
     [EntityRepositoryType]?: BookingRepository;
 
-    @PrimaryKey({ type: 'uuid' })
+    @PrimaryKey({ columnType: 'uuid', fieldName: 'id' })
     id: string = v4();
 
-    @Property({ type: 'uuid' })
-    user_id: string;
+    @Property({ columnType: 'uuid', fieldName: 'user_id' })
+    userId: string;
 
-    @Property({ type: 'uuid' })
-    room_id: string;
+    @Property({ columnType: 'uuid', fieldName: 'room_id' })
+    roomId: string;
 
-    @Property({ type: 'datetime' })
-    date_from: Date;
+    @Property({ type: 'datetime', fieldName: 'date_from' })
+    dateFrom: Date;
 
-    @Property({ type: 'datetime' })
-    date_to: Date;
+    @Property({ type: 'datetime', fieldName: 'date_to' })
+    dateTo: Date;
 
-    @Enum({ items: () => BookingStatus, type: 'varchar', length: 50 })
+    @Enum({ items: () => BookingStatus, type: 'varchar', length: 50, fieldName: 'status' })
     status: BookingStatus;
 
     @Property({
-        type: 'timestamp',
+        columnType: 'timestamptz',
         defaultRaw: 'CURRENT_TIMESTAMP',
-        columnType: 'timestamptz'
+        fieldName: 'created_at',
     })
-    created_at?: Date;
+    createdAt?: Date;
 
-    constructor(user_id: string, room_id: string, date_from: Date, date_to: Date, status: BookingStatus) {
-        this.user_id = user_id;
-        this.room_id = room_id;
-        this.date_from = date_from;
-        this.date_to = date_to;
+    constructor(userId: string, roomId: string, dateFrom: Date, dateTo: Date, status: BookingStatus) {
+        this.userId = userId;
+        this.roomId = roomId;
+        this.dateFrom = dateFrom;
+        this.dateTo = dateTo;
         this.status = status;
     }
 }
