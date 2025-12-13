@@ -4,7 +4,7 @@
   "sourceRoot": "apps/r-omni/src",
   "compilerOptions": {
     "deleteOutDir": true,
-    "webpack": true,
+    "webpack": false,
     "tsConfigPath": "apps/r-omni/tsconfig.app.json",
     "assets": [
       {
@@ -30,10 +30,28 @@
         "tsConfigPath": "apps/bff/tsconfig.app.json"
       }
     },
+    "bff-rsdk": {
+      "type": "application",
+      "root": "apps/bff",
+      "entryFile": "main-rsdk",
+      "sourceRoot": "apps/bff/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/bff/tsconfig.app.json"
+      }
+    },
     "booking": {
       "type": "application",
       "root": "apps/booking",
       "entryFile": "main",
+      "sourceRoot": "apps/booking/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/booking/tsconfig.app.json"
+      }
+    },
+    "booking-rsdk": {
+      "type": "application",
+      "root": "apps/booking",
+      "entryFile": "main-rsdk",
       "sourceRoot": "apps/booking/src",
       "compilerOptions": {
         "tsConfigPath": "apps/booking/tsconfig.app.json"

@@ -59,10 +59,10 @@ export class BookingService {
     // Публикуем событие начала Saga
     const event = new BookingStartEvent(
         booking.id,
-        booking.user_id,
-        booking.room_id,
-        booking.date_from,
-        booking.date_to,
+        booking.userId,
+        booking.roomId,
+        booking.dateFrom,
+        booking.dateTo,
     );
 
     this.logger.log(`eventBus.publish("booking.start")`)
@@ -147,9 +147,9 @@ export class BookingService {
       // Запрос на освобождение комнаты
       this.natsClient.emit(`room.released`, {
         booking_id: booking.id,
-        room_id: booking.room_id,
-        date_from: booking.date_from,
-        date_to: booking.date_to,
+        room_id: booking.roomId,
+        date_from: booking.dateFrom,
+        date_to: booking.dateTo,
       });
     }
 

@@ -18,12 +18,12 @@ import {BookingService} from "./booking.service";
   imports: [
     UserModule, // нужен как AuthModule
     ConfigModule.forRoot(),
-    GraphQLModule.forRoot<ApolloDriverConfig>({
-      driver: ApolloDriver,
-      autoSchemaFile: join(process.cwd(), 'apps/bff/src/schema.gql'),
-      sortSchema: true,
-      playground: true,
-    }),
+    // GraphQLModule.forRoot<ApolloDriverConfig>({
+    //   driver: ApolloDriver,
+    //   autoSchemaFile: join(process.cwd(), 'apps/bff/src/schema.gql'),
+    //   sortSchema: true,
+    //   playground: true,
+    // }),
     ClientsModule.register([
       {
         name: 'BFF_NATS_SERVICE',

@@ -6,14 +6,34 @@ import {BookingInput} from "./dto/booking.input";
 import {UserAttachInterceptor} from "./intercepters/UserAttachInterceptor";
 import {RoomWasReservedEvent} from "../../rooms/src/events/room.was.reserved.event";
 import {BookingTimeoutEvent} from "./events/booking.timeout.event";
+import {BookingGrpcController, BookingGrpcMethods, CancelBookingRequest, CancelBookingResponse, CreateBookingRequest, CreateBookingResponse, GetAllBookingsRequest, GetAllBookingsResponse} from "../../../contracts/grpc/dist/booking.v1";
+import {Metadata} from '@grpc/grpc-js';
+import {Observable} from 'rxjs';
 
 @Controller()
-export class BookingController {
+@BookingGrpcMethods()
+export class BookingController implements BookingGrpcController {
   private readonly logger = new Logger(BookingController.name);
 
   constructor(
       private readonly bookingService: BookingService,
-  ) {}
+  ) {
+  }
+
+  getAllBookings(request: GetAllBookingsRequest): GetAllBookingsResponse | Promise<GetAllBookingsResponse> | Observable<GetAllBookingsResponse> {
+    throw new Error('Method not implemented.');
+
+    this.logger.log('Received request: booking.findAll');
+    // return this.bookingService.findAll().then(bookings => ({
+    //   bookings: bookings,
+    // }));
+  }
+    createBooking(request: CreateBookingRequest, metadata?: Metadata): CreateBookingResponse | Promise<CreateBookingResponse> | Observable<CreateBookingResponse> {
+        throw new Error('Method not implemented.');
+    }
+    cancelBooking(request: CancelBookingRequest, metadata?: Metadata): CancelBookingResponse | Promise<CancelBookingResponse> | Observable<CancelBookingResponse> {
+        throw new Error('Method not implemented.');
+    }
 
   @MessagePattern('booking.findAll')
   findAll(): Promise<Booking[]> {

@@ -4,12 +4,14 @@ import {NatsClientService} from "./nats-client.service";
 import {Logger, ParseUUIDPipe} from "@nestjs/common";
 import {BookingModel} from "./model/booking.model";
 import {BookingInput} from "../../booking/src/dto/booking.input";
+import {BookingService} from "./booking.service";
 
 @Resolver(() => BookingModel)
 export class BookingResolver {
     private readonly logger = new Logger(BookingResolver.name);
 
     constructor(
+        private readonly bookingService: BookingService,
         private readonly natsClient: NatsClientService,
     ) {}
 
@@ -17,6 +19,12 @@ export class BookingResolver {
     async bookings(): Promise<BookingModel[]> {
         this.logger.log('GraphQL query: get bookings');
         return this.natsClient.send('booking.findAll', '').toPromise();
+    }
+
+    @Query(() => [BookingModel])
+    async bookingsRsdk(): Promise<BookingModel[]> {
+        this.logger.log('GraphQL query: get bookings');
+        return  await this.bookingService.bookings();
     }
 
     @Mutation(() => BookingModel, { nullable: true })
